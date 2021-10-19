@@ -1,0 +1,101 @@
+
+server:
+  port: 9200
+
+spring:
+  application:
+    name: hnzs-gateway-provider
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            # 允许携带认证信息
+            # 允许跨域的源(网站域名/ip)，设置*为全部
+            # 允许跨域请求里的head字段，设置*为全部
+            # 允许跨域的method， 默认为GET和OPTIONS，设置*为全部
+            # 跨域允许的有效期
+            allow-credentials: true
+            allowed-origins: "*"
+            allowed-headers: "*"
+            allowed-methods:
+              - OPTIONS
+              - GET
+              - POST
+            max-age: 3600
+            # 允许response的head信息
+            # 默认仅允许如下6个：
+            #     Cache-Control
+            #     Content-Language
+            #     Content-Type
+            #     Expires
+            #     Last-Modified
+            #     Pragma
+            #exposed-headers:
+      # gateway配合服务发现组件使用时，会有一个默认的转发规则，如下：
+      # ${GATEWAY_URL}/{微服务名称}/{接口路径}
+      locator:
+        #开启从注册中心动态创建路由的功能
+        enabled: false
+        #开启小写验证，默认feign根据服务名查找都是用的全大写
+        lowerCaseServiceId: true
+      routes:
+        - id: chen_route
+          #uri: lb://consul-provider-payment
+          uri: http://www.baidu.com
+          predicates:
+            - Path=/chen/**
+              #- Host=**.foo.org
+              #- Path=/headers
+              #- Method=GET
+              #- Header=X-Request-Id, \d+
+              #- Query=foo, ba.
+              #- Query=baz
+            #- Cookie=chocolate, ch.p
+            #- After=2020-01-20T06:06:06+08:00[Asia/Shanghai]  #Before,Between=2018-01-20T06:06:06+08:00[Asia/Shanghai], 2019-01-20T06:06:06+08:00[Asia/Shanghai]
+          filters:
+            # 从第几级开始转发，数字从0开始
+            - StripPrefix=1
+        - id: common-service-provider-system
+          #uri: lb://consul-provider-payment
+          uri: lb://common-service-provider-system
+          predicates:
+            - Path=/common-service-provider-system/**
+            #- Host=**.foo.org
+            #- Path=/headers
+            #- Method=GET
+            #- Header=X-Request-Id, \d+
+            #- Query=foo, ba.
+            #- Query=baz
+            #- Cookie=chocolate, ch.p
+            #- After=2020-01-20T06:06:06+08:00[Asia/Shanghai]  #Before,Between=2018-01-20T06:06:06+08:00[Asia/Shanghai], 2019-01-20T06:06:06+08:00[Asia/Shanghai]
+          filters:
+            #- SetPath=/{segment}
+            - StripPrefix=1
+    consul:
+      host: 172.30.37.225
+      port: 8500
+      discovery:
+        #tags: version=1.0,author=chen
+        #healthCheckPath: /info.json
+        #healthCheckInterval: 5s
+        #instanceId: ${spring.application.name}  #:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+        service-name: ${spring.application.name}
+        heartbeat:
+          enabled: true
+management:
+  # 所有的路由信息暴漏
+  # http://localhost:7778/actuator/gateway/routes
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      # 总是显示健康检测详情
+      show-details: always
+

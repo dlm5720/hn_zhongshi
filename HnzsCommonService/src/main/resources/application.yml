@@ -1,0 +1,21 @@
+spring:
+  #启用本地配置文件，特别注意配置中心
+  #\注意写法 local代表本地后缀的-local的yml ,native表示是本地的文件不是git服务器
+  profiles:
+    active: local,native
+
+#  cloud:vicvi
+#    config:
+#      #仓库的分支
+#      label: master
+#      server:
+#        default-application-name: @pom.artifactId@
+#        git:
+#          #git仓库地址
+#          uri: https://github.com/foxiswho/foxwho-config-repo
+#          #仓库路径
+#          search-paths: demo
+#          #访问git仓库的用户名
+#          username:
+#          #访问git仓库的用户密码 如果Git仓库为公开仓库，可以不填写用户名和密码，如果是私有仓库需要填写
+#          password:
