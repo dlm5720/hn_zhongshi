@@ -19,7 +19,7 @@ import java.util.Map;
 
 
 @RestController
-@RequestMapping(value = "/recruit")
+@RequestMapping(value = "/recruit/RecruitController")
 public class RecruitController {
 
     @Autowired
@@ -33,6 +33,7 @@ public class RecruitController {
     @RequestMapping(value = "/OpenCollection.action" )
     public String OpenCollection(){
         HashMap datamap = new HashMap();
+        System.out.println("ceshi");
         String result="";
         try{
             String xml1 = request.getParameter("xml");//接收的参数

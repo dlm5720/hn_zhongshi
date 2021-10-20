@@ -1,5 +1,5 @@
 server:
-  port: 9410
+  port: 9420
 
 spring:
   application:
@@ -12,9 +12,9 @@ spring:
     druid:
       type : com.alibaba.druid.pool.DruidDataSource
       driver-class-name: com.mysql.jdbc.Driver
-      url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&nullCatalogMeansCurrent=true&autoReconnect=true&failOverReadOnly=false
+      url: jdbc:mysql://127.0.0.1:3306/minhaofinance_invoice?useUnicode=true&characterEncoding=utf8&nullCatalogMeansCurrent=true&autoReconnect=true&failOverReadOnly=false
       username: root
-      password: 12345
+      password: 123456
       initialSize: 5
       minIdle: 5
       maxActive: 20
@@ -61,7 +61,7 @@ spring:
   # allow-bean-definition-overriding: true
   cloud:
     consul:
-      host: 172.30.37.225
+      host: localhost
       port: 8500
       discovery:
         #tags: version=1.0,author=chen

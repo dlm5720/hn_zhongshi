@@ -36,7 +36,7 @@ public class MyInterceptor implements HandlerInterceptor {
         ///忽略所有非org.chen.controller的请求
         if (handler instanceof HandlerMethod) {
             HandlerMethod h = (HandlerMethod) handler;
-            if (h.getBean().getClass().getName().toString().contains("com.minhao.controller")) {
+            if (h.getBean().getClass().getName().toString().contains("com.hnzs.controller")) {
                 //String paramToken = request.getParameter("token");
                 String paramToken = request.getParameter("token")==null?request.getHeader("token"):request.getParameter("token");
                 System.out.println("param token:" + request.getParameter("token") + "\t");
