@@ -1,0 +1,103 @@
+server:
+  port: 9420
+
+spring:
+  application:
+    name: common-service-provider-system
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+  datasource:
+    druid:
+      type : com.alibaba.druid.pool.DruidDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      url: jdbc:mysql://127.0.0.1:3306/minhaofinance_invoice?useUnicode=true&characterEncoding=utf8&nullCatalogMeansCurrent=true&autoReconnect=true&failOverReadOnly=false
+      username: root
+      password: 123456
+      initialSize: 5
+      minIdle: 5
+      maxActive: 20
+      # 配置获取连接等待超时的时间
+      maxWait: 60000
+      # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      timeBetweenEvictionRunsMillis: 60000
+      # 配置一个连接在池中最小生存的时间，单位是毫秒
+      minEvictableIdleTimeMillis: 300000
+      validationQuery: SELECT 1 FROM DUAL
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      # 打开PSCache，并且指定每个连接上PSCache的大小
+      poolPreparedStatements: true
+      maxPoolPreparedStatementPerConnectionSize: 20
+      # 配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+      filters: stat,wall,log4j
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connection-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      # 合并多个DruidDataSource的监控数据
+      useGlobalDataSourceStat: true
+      # 超过时间限制是否回收
+      removeAbandoned : true
+      # 超时时间；单位为秒。180秒=3分钟
+      removeAbandonedTimeout : 180
+      #关闭abanded连接时输出错误日志
+      #logAbandoned : true
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+  redis:
+    database: 0
+    host: 172.30.37.225
+    port: 6379
+    password: Pwd@225!
+    jedis:
+      pool:
+        max-active: 8
+        max-wait: -1
+        max-idle: 8
+        min-idle: 0
+      timeout: 5000
+  # main:
+  # allow-bean-definition-overriding: true
+  cloud:
+    consul:
+      host: localhost
+      port: 8500
+      discovery:
+        #tags: version=1.0,author=chen
+        #healthCheckPath: /info.json
+        #healthCheckInterval: 5s
+        #instanceId: ${spring.application.name}  #:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+        service-name: ${spring.application.name}
+        heartbeat:
+          enabled: true
+
+#配置mybatisplus
+mybatis-plus:
+  mapper-locations:
+    - classpath:mapper/*.xml
+  global-config:
+    db-config:
+      id-type: auto
+    banner: true
+    #configuration:
+    #log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+logging:
+  config: classpath:log4j2.yml
+
+
+# 测试远程接口
+test:
+  feign.url: http://localhost:8090/test/demo1
+
+# token过期时间（分钟）
+token-expiration: 30
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
