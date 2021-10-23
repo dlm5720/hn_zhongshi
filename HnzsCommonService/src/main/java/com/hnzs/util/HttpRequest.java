@@ -404,7 +404,7 @@ public class HttpRequest {
      * 向指定 URL 发送POST方法的请求(将参数放在body中)
      * 
      * @param
-     *            发送请求的 URL
+     *             stringurl
      * @param param
      *            请求参数，请求参数应该是 name1=value1&name2=value2 的形式。
      * @return 所代表远程资源的响应结果
@@ -643,7 +643,7 @@ public class HttpRequest {
 
 
     public static HashMap<String, String> sendPostXml(String stringurl, String param) {
-        PrintWriter out = null;
+        OutputStreamWriter out = null;
         BufferedReader in = null;
         String result = "";
         HashMap<String, String> map = new HashMap<String, String>();
@@ -654,23 +654,27 @@ public class HttpRequest {
             connection.setRequestMethod("POST");//请求post方式
             connection.setDoInput(true);
             connection.setDoOutput(true);
+
             //header内的的参数在这里set    connection.setRequestProperty("健, "值");
-            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("Pragma:", "no-cache");
+            connection.setRequestProperty("Cache-Control", "no-cache");
+            connection.setRequestProperty("Content-Type", "text/xml");
 
             connection.connect();
-            OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(),"UTF-8");
+            out = new OutputStreamWriter(connection.getOutputStream(),"UTF-8");
 
             //body参数在这里put到JSONObject中
-            writer.write(param);
-            writer.flush();
+            out.write(new String(param.getBytes("ISO-8859-1")));
+            out.flush();
+            out.close();
             InputStream is = connection.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+            in = new BufferedReader(new InputStreamReader(is, "UTF-8"));
             String strRead = "";
             StringBuffer sbf = new StringBuffer();
-            while ((strRead = reader.readLine()) != null) {
+            while ((strRead = in.readLine()) != null) {
                 sbf.append(strRead);
             }
-            reader.close();
+            in.close();
             connection.disconnect();
             result = sbf.toString();
 
@@ -679,6 +683,7 @@ public class HttpRequest {
         } catch (Exception e) {
             System.out.println(e);
             map.put("result", "发送 POST 请求出现异常！");
+            map.put("flag","fail");
         }
         //使用finally块来关闭输出流、输入流
         finally{

@@ -27,4 +27,12 @@ public interface TaskService {
      * @return
      */
     public String editTaskByTaskId(String rows,String userId);
+
+
+    /**
+     * 任务重试
+     * @param rows
+     * @return
+     */
+    public String tryAgainTask(String rows,String userId);
 }

@@ -136,4 +136,40 @@ public class TaskController {
         return result;
     }
 
+    /**
+     * 任务重试
+     * @return
+     */
+    @RequestMapping(value = "/tryAgainTask.action" )
+    public String tryAgainTask() {
+        String result = "";
+        HashMap hmp = new HashMap();
+        try {
+            String token = request.getParameter("token") == null ? request.getHeader("token") : request.getParameter("token");
+            String retom = (String) redisTemplate.opsForValue().get(token);
+            HashMap map = (HashMap) JSON.Decode(retom);
+            String userId = map.get("id") + "";
+            System.out.println("id:" + userId);
+            String loginname = map.get("loginname") + "";
+            System.out.println("loginname:" + loginname);
+            String rows = request.getParameter("rows"); //选择列表要重试的任务信息，可能多行，可能单行
+            String res = taskService.tryAgainTask(rows, userId);
+            hmp.put("code", 0);
+            hmp.put("msg", res);
+            hmp.put("total", 0);
+            hmp.put("count", 0);
+            hmp.put("data", res);
+        } catch (Exception e) {
+            e.printStackTrace();
+            hmp.put("code", 10000);
+            hmp.put("msg", e.getMessage());
+            hmp.put("total", 0);
+            hmp.put("count", 0);
+            hmp.put("data", "");
+        }
+        result = JSON.Encode(hmp);
+
+        return result;
+    }
+
 }
