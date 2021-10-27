@@ -2,7 +2,7 @@ spring:
   #启用本地配置文件，特别注意配置中心
   #\注意写法 local代表本地后缀的-local的yml ,native表示是本地的文件不是git服务器
   profiles:
-    active: local,native
+    active: test,native
 
 #  cloud:vicvi
 #    config:
