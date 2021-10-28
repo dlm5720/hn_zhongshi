@@ -46,6 +46,9 @@ public class TasksServer{
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println(sdf.format(new Date()).substring(0,10));
+
+        String temp="abcdefghijklmnopqrs2021-10-28start";
+        System.out.println(temp.substring(0,temp.indexOf("-")-4));
     }
 
     /**
@@ -122,7 +125,7 @@ public class TasksServer{
                             Iterator iterator=taskInstanceMap.keySet().iterator();
                             while(iterator.hasNext()){
                                 String temp=(String)iterator.next();
-                                Future task=(Future) taskInstanceMap.get(temp);
+                                Future task=(Future) taskInstanceMap.get(temp.substring(0,temp.indexOf("-")-4));
 
                                 //当注册表中没有该任务时，直接结束该任务
                                 if(taskRegedit.get(temp)==null){
