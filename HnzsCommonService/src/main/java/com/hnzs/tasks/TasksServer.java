@@ -55,7 +55,7 @@ public class TasksServer{
      *          运行任务池   ScheduledExecutorService
      *      2：任务计划注册表按计划调度线程。
      *
-     *      3：注册表和数据库记录的同步线程。
+     *      3：注册表和数据库记录的同步线程。(本次程序不实现，重启后有外部程序辅助载入任务)
      *
      *      4：任务运行线程的健康自检线程。
      *
@@ -122,8 +122,12 @@ public class TasksServer{
                             Iterator iterator=taskInstanceMap.keySet().iterator();
                             while(iterator.hasNext()){
                                 String temp=(String)iterator.next();
-                                //HashMap taskData=(HashMap) taskInstanceMap.get(temp);
-                                //什么也不做
+                                Future task=(Future) taskInstanceMap.get(temp);
+
+                                //当注册表中没有该任务时，直接结束该任务
+                                if(taskRegedit.get(temp)==null){
+                                    task.cancel(true);
+                                }
                             }
                         }
                         catch(Exception e){
@@ -131,8 +135,8 @@ public class TasksServer{
                         }
                     }
                 },
-                60*60*1, //延迟多久执行
-                60*60*1, //执行间隔
+                60*10, //延迟多久执行
+                60*10, //执行间隔
                 TimeUnit.SECONDS
         );
 
