@@ -91,7 +91,7 @@ public class TasksServer{
         taskInstanceMap=new ConcurrentHashMap();
 
         //任务调度线程
-        Future future = pool.scheduleAtFixedRate(
+        Future planFuture = pool.scheduleAtFixedRate(
                 new Runnable() {
                     public void run() {
                         try{
@@ -110,6 +110,29 @@ public class TasksServer{
                 },
                 1, //延迟多久执行
                 5, //执行间隔
+                TimeUnit.SECONDS
+        );
+
+        //任务线程检查检查线程
+        Future  jobFuture = pool.scheduleAtFixedRate(
+                new Runnable() {
+                    public void run() {
+                        try{
+                            System.out.println("健康检查任务线程运行");
+                            Iterator iterator=taskInstanceMap.keySet().iterator();
+                            while(iterator.hasNext()){
+                                String temp=(String)iterator.next();
+                                //HashMap taskData=(HashMap) taskInstanceMap.get(temp);
+                                //什么也不做
+                            }
+                        }
+                        catch(Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                },
+                60*60*1, //延迟多久执行
+                60*60*1, //执行间隔
                 TimeUnit.SECONDS
         );
 
@@ -291,7 +314,6 @@ public class TasksServer{
                 delaySecond,
                 TimeUnit.SECONDS
         );
-        taskRegedit.put(jobKey, future);
         taskInstanceMap.put(jobKey, future);
         return null;
     }
