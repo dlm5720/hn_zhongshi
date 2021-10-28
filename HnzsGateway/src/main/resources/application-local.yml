@@ -76,17 +76,17 @@ spring:
           filters:
             #- SetPath=/{segment}
             - StripPrefix=1
-    consul:
-      host: localhost
-      port: 8500
-      discovery:
-        #tags: version=1.0,author=chen
-        #healthCheckPath: /info.json
-        #healthCheckInterval: 5s
-        #instanceId: ${spring.application.name}  #:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
-        service-name: ${spring.application.name}
-        heartbeat:
-          enabled: true
+#    consul:
+#      host: localhost
+#      port: 8500
+#      discovery:
+#        #tags: version=1.0,author=chen
+#        #healthCheckPath: /info.json
+#        #healthCheckInterval: 5s
+#        #instanceId: ${spring.application.name}  #:${vcap.application.instance_id:${spring.application.instance_id:${random.value}}}
+#        service-name: ${spring.application.name}
+#        heartbeat:
+#          enabled: true
 management:
   # 所有的路由信息暴漏
   # http://localhost:7778/actuator/gateway/routes

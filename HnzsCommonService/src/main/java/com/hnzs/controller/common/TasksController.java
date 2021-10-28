@@ -33,10 +33,11 @@ public class TasksController {
         String result="";
         try {
             String jsons=request.getParameter("json");
+            System.out.println("jsons:"+jsons);
 
             int n= createtasksService.CreateTempTask(jsons);
             // String result="";
-            if(n>0){
+            if(n==0){
                 result="保存成功";
             }else{
                 result="保存失败";
@@ -60,7 +61,7 @@ public class TasksController {
 
             int n= createtasksService.CreatePeriodicTask(jsons);
             // String result="";
-            if(n>0){
+            if(n==0){
                 result="保存成功";
             }else{
                 result="保存失败";
@@ -84,7 +85,7 @@ public class TasksController {
 
             int n= createtasksService.CreateContinuousTask(jsons);
             // String result="";
-            if(n>0){
+            if(n==0){
                 result="保存成功";
             }else{
                 result="保存失败";

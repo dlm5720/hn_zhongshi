@@ -70,16 +70,16 @@ public class TaskController {
         String result="";
         HashMap hmp = new HashMap();
         try{
-            String token = request.getParameter("token")==null?request.getHeader("token"):request.getParameter("token");
-            String retom=(String) redisTemplate.opsForValue().get(token);
-            HashMap map=(HashMap)JSON.Decode(retom);
-            String userId= map.get("id")+"";
-            System.out.println("id:"+userId);
-            String loginname= map.get("loginname")+"";
-            System.out.println("loginname:"+loginname);
+//            String token = request.getParameter("token")==null?request.getHeader("token"):request.getParameter("token");
+//            String retom=(String) redisTemplate.opsForValue().get(token);
+//            HashMap map=(HashMap)JSON.Decode(retom);
+//            String userId= map.get("id")+"";
+//            System.out.println("id:"+userId);
+//            String loginname= map.get("loginname")+"";
+//            System.out.println("loginname:"+loginname);
 
             String taskId = request.getParameter("id");
-            String res=taskService.deleteTaskByTaskId(taskId,userId);
+            String res=taskService.deleteTaskByTaskId(taskId,"");
             hmp.put("code", 0);
             hmp.put("msg", res);
             hmp.put("total",0);
@@ -107,17 +107,17 @@ public class TaskController {
         String result="";
         HashMap hmp = new HashMap();
         try{
-            String token = request.getParameter("token")==null?request.getHeader("token"):request.getParameter("token");
+            /*String token = request.getParameter("token")==null?request.getHeader("token"):request.getParameter("token");
             String retom=(String) redisTemplate.opsForValue().get(token);
             HashMap map=(HashMap)JSON.Decode(retom);
             String userId= map.get("id")+"";
             System.out.println("id:"+userId);
             String loginname= map.get("loginname")+"";
-            System.out.println("loginname:"+loginname);
+            System.out.println("loginname:"+loginname);*/
 
 
             String row = request.getParameter("row");
-            String res=taskService.editTaskByTaskId(row,userId);
+            String res=taskService.editTaskByTaskId(row,"");
             hmp.put("code", 0);
             hmp.put("msg", res);
             hmp.put("total",0);
@@ -145,15 +145,15 @@ public class TaskController {
         String result = "";
         HashMap hmp = new HashMap();
         try {
-            String token = request.getParameter("token") == null ? request.getHeader("token") : request.getParameter("token");
+            /*String token = request.getParameter("token") == null ? request.getHeader("token") : request.getParameter("token");
             String retom = (String) redisTemplate.opsForValue().get(token);
             HashMap map = (HashMap) JSON.Decode(retom);
             String userId = map.get("id") + "";
             System.out.println("id:" + userId);
             String loginname = map.get("loginname") + "";
-            System.out.println("loginname:" + loginname);
+            System.out.println("loginname:" + loginname);*/
             String rows = request.getParameter("rows"); //选择列表要重试的任务信息，可能多行，可能单行
-            String res = taskService.tryAgainTask(rows, userId);
+            String res = taskService.tryAgainTask(rows, "");
             hmp.put("code", 0);
             hmp.put("msg", res);
             hmp.put("total", 0);

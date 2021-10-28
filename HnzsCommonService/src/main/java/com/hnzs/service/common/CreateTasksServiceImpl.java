@@ -27,6 +27,7 @@ public class CreateTasksServiceImpl implements CreateTasksService{
         ArrayList ayList=new ArrayList();
         try{
             HashMap row = (HashMap) JSON.Decode(jsons);
+            System.out.println("row:"+row);
             String task_name=row.get("task_name")==null?"":row.get("task_name").toString();
             String Belong_source=row.get("Belong_source")==null?"":row.get("Belong_source").toString();
             String task_start_time=row.get("task_start_time")==null?"":row.get("task_start_time").toString();
@@ -44,7 +45,7 @@ public class CreateTasksServiceImpl implements CreateTasksService{
                         "task_start_time,task_end_time,task_duration,is_Transcoding,storage_location,"+
                          "task_status,insert_time)" +
                         " VALUES (";
-                sqll += " '"+uuid+" '"+task_type+" '"+task_name+"','"+Belong_source+"','"+task_start_time+"','"+task_end_time+"','" +
+                sqll += " '"+uuid+"','"+task_type+"','"+task_name+"','"+Belong_source+"','"+task_start_time+"','"+task_end_time+"'," +
                         "'"+task_duration+"','"+is_Transcoding+"','"+storage_location+"','"+task_status+"','"+insert_time+"' )";
                 ayList.add(sqll);
                 System.out.println("ayList:"+ayList);
@@ -89,7 +90,7 @@ public class CreateTasksServiceImpl implements CreateTasksService{
                     "task_start_time,task_end_time,task_duration,cycle_period,cycle_end_time,is_Transcoding,storage_location,"+
                     "task_status,insert_time)" +
                     " VALUES (";
-            sqll += " '"+uuid+" '"+task_type+"','"+Belong_source+"','"+task_start_time+"','"+task_end_time+"','" +
+            sqll += " '"+uuid+"','"+task_type+"','"+Belong_source+"','"+task_start_time+"','"+task_end_time+"'," +
                     "'"+task_duration+"','"+cycle_period+"','"+cycle_end_time+"','"+is_Transcoding+"','"+storage_location+"','"+task_status+"','"+insert_time+"' )";
             ayList.add(sqll);
             System.out.println("ayList:"+ayList);
@@ -134,7 +135,7 @@ public class CreateTasksServiceImpl implements CreateTasksService{
                     "task_start_time,task_end_time,task_duration,is_Transcoding,storage_location,"+
                     "task_status,insert_time)" +
                     " VALUES (";
-            sqll += " '"+uuid+" '"+task_type+" '"+task_name+"','"+Belong_source+"','"+task_start_time+"','" +
+            sqll += " '"+uuid+"','"+task_type+"','"+task_name+"','"+Belong_source+"','"+task_start_time+"'," +
                     "'"+is_Transcoding+"','"+storage_location+"','"+task_status+"','"+insert_time+"' )";
             ayList.add(sqll);
             System.out.println("ayList:"+ayList);
