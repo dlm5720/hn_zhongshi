@@ -44,11 +44,102 @@ public class TasksServer{
         System.out.println(a.charAt(x));
          */
 
+        /**
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         System.out.println(sdf.format(new Date()).substring(0,10));
 
         String temp="abcdefghijklmnopqrs2021-10-28start";
         System.out.println(temp.substring(0,temp.indexOf("-")-4));
+         */
+
+        /**
+         * taskData taskType(1,2,3)  //1：临时任务  2：周期任务 3：7*24小时任务
+         * taskData taskID 10000000
+         * taskData taskName 测试测试
+         * taskData taskBelogFlow xxxxxxx
+         * taskData taskStartTime 2021-10-24 09:07:00
+         * taskData taskEndTime 2021-10-24 09:07:00
+         * taskData taskCrossDay 0 1
+         * taskData taskCycleTime [1,2,3,4,5,6,7]
+         * taskData taskCycleEndTime 2021-10-24 09:07:00
+         * taskData taskIsTranscode 0 1
+         * taskData taskStorageLocation
+         * */
+
+        TasksServer ts=new TasksServer();
+        ts.start();
+
+        HashMap taskData=new HashMap();
+        taskData.put("taskType","1");
+        taskData.put("taskID","100000001");
+        taskData.put("taskName","测试任务");
+        taskData.put("taskBelogFlow","htt://localost/9210/test");
+        taskData.put("taskStartTime","2021-10-29 10:40:00");
+        taskData.put("taskEndTime","2021-10-29 10:45:00");
+        //taskData.put("taskCrossDay","0");
+        //taskData.put("taskCycleTime","[1,2,3,4,5,6,7]");
+        //taskData.put("taskCycleEndTime","2021-10-24 09:07:00");
+        taskData.put("taskIsTranscode","1");
+        taskData.put("taskStorageLocation","1");
+
+        System.out.println(JSON.Encode(taskData));
+        ts.addTask(JSON.Encode(taskData));
+
+        taskData=new HashMap();
+        taskData.put("taskType","1");
+        taskData.put("taskID","100000002");
+        taskData.put("taskName","测试任务");
+        taskData.put("taskBelogFlow","htt://localost/9210/test");
+        taskData.put("taskStartTime","2021-10-29 10:33:00");
+        taskData.put("taskEndTime","2021-10-29 11:00:00");
+        //taskData.put("taskCrossDay","0");
+        //taskData.put("taskCycleTime","[1,2,3,4,5,6,7]");
+        //taskData.put("taskCycleEndTime","2021-10-24 09:07:00");
+        taskData.put("taskIsTranscode","1");
+        taskData.put("taskStorageLocation","1");
+
+        taskData=new HashMap();
+        taskData.put("taskType","2");
+        taskData.put("taskID","200000001");
+        taskData.put("taskName","测试任务");
+        taskData.put("taskBelogFlow","htt://localost/9210/test");
+        taskData.put("taskStartTime","2021-10-29 10:33:00");
+        taskData.put("taskEndTime","2021-10-29 11:23:00");
+        //taskData.put("taskCrossDay","0");
+        taskData.put("taskCycleTime","[1,2,3,4,5,6,7]");
+        taskData.put("taskCycleEndTime","2021-10-30 09:07:00");
+        taskData.put("taskIsTranscode","1");
+        taskData.put("taskStorageLocation","1");
+
+        taskData=new HashMap();
+        taskData.put("taskType","2");
+        taskData.put("taskID","200000002");
+        taskData.put("taskName","测试任务");
+        taskData.put("taskBelogFlow","htt://localost/9210/test");
+        taskData.put("taskStartTime","2021-10-29 10:33:00");
+        taskData.put("taskEndTime","2021-10-29 10:38:00");
+        //taskData.put("taskCrossDay","0");
+        taskData.put("taskCycleTime","[1,2,6,7]");
+        taskData.put("taskCycleEndTime","2021-10-29 23:59:59");
+        taskData.put("taskIsTranscode","1");
+        taskData.put("taskStorageLocation","1");
+
+
+        taskData=new HashMap();
+        taskData.put("taskType","3");
+        taskData.put("taskID","300000001");
+        taskData.put("taskName","测试任务");
+        taskData.put("taskBelogFlow","htt://localost/9210/test");
+        taskData.put("taskStartTime","2021-10-29 10:33:00");
+        //taskData.put("taskEndTime","2021-10-29 09:1:00");
+        //taskData.put("taskCrossDay","0");
+        //taskData.put("taskCycleTime","[1,2,6,7]");
+        //taskData.put("taskCycleEndTime","2021-10-29 23:59:59");
+        taskData.put("taskIsTranscode","1");
+        taskData.put("taskStorageLocation","1");
+
+
+
     }
 
     /**
@@ -176,6 +267,8 @@ public class TasksServer{
          * taskData taskStorageLocation
          * */
 
+        System.out.println(taskData.get("taskID"));
+
         //1:第一步 验证注册表中是否存在该任务
         String taskID=(String)taskRegedit.get(taskData.get("taskID"));
         if(taskID!=null && taskID.trim().length()>0){
@@ -187,7 +280,7 @@ public class TasksServer{
          * 将任务数据写入注册表
          * 除7*24小时任务 每种任务都是两个作业，一个启动收录  一个结束收录
          * */
-        taskRegedit.put(taskID,taskData);
+        taskRegedit.put(taskData.get("taskID"),taskData);
 
         //计算任务开始的时间和结束的时间 转换成秒 用于启动任务
         //2.0 时间转换
