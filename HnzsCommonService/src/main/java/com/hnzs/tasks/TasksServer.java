@@ -81,7 +81,6 @@ public class TasksServer{
         //taskData.put("taskCycleEndTime","2021-10-24 09:07:00");
         taskData.put("taskIsTranscode","1");
         taskData.put("taskStorageLocation","1");
-
         System.out.println(JSON.Encode(taskData));
         ts.addTask(JSON.Encode(taskData));
 
@@ -97,6 +96,8 @@ public class TasksServer{
         //taskData.put("taskCycleEndTime","2021-10-24 09:07:00");
         taskData.put("taskIsTranscode","1");
         taskData.put("taskStorageLocation","1");
+        System.out.println(JSON.Encode(taskData));
+        ts.addTask(JSON.Encode(taskData));
 
         taskData=new HashMap();
         taskData.put("taskType","2");
@@ -110,6 +111,8 @@ public class TasksServer{
         taskData.put("taskCycleEndTime","2021-10-30 09:07:00");
         taskData.put("taskIsTranscode","1");
         taskData.put("taskStorageLocation","1");
+        System.out.println(JSON.Encode(taskData));
+        ts.addTask(JSON.Encode(taskData));
 
         taskData=new HashMap();
         taskData.put("taskType","2");
@@ -123,7 +126,8 @@ public class TasksServer{
         taskData.put("taskCycleEndTime","2021-10-29 23:59:59");
         taskData.put("taskIsTranscode","1");
         taskData.put("taskStorageLocation","1");
-
+        System.out.println(JSON.Encode(taskData));
+        ts.addTask(JSON.Encode(taskData));
 
         taskData=new HashMap();
         taskData.put("taskType","3");
@@ -131,13 +135,14 @@ public class TasksServer{
         taskData.put("taskName","测试任务");
         taskData.put("taskBelogFlow","htt://localost/9210/test");
         taskData.put("taskStartTime","2021-10-29 10:33:00");
-        //taskData.put("taskEndTime","2021-10-29 09:1:00");
+        taskData.put("taskEndTime","2021-11-29 11:10:00");
         //taskData.put("taskCrossDay","0");
         //taskData.put("taskCycleTime","[1,2,6,7]");
         //taskData.put("taskCycleEndTime","2021-10-29 23:59:59");
         taskData.put("taskIsTranscode","1");
         taskData.put("taskStorageLocation","1");
-
+        System.out.println(JSON.Encode(taskData));
+        ts.addTask(JSON.Encode(taskData));
 
 
     }
