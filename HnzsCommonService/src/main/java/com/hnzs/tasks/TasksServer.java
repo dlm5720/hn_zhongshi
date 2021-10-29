@@ -324,7 +324,7 @@ public class TasksServer{
                 TimeUnit.SECONDS
         );
         taskInstanceMap.put(jobKey, future);
-        return null;
+        return "{\"code\":\"0\",\"runingTime\":\""+taskData.get("taskID").toString() + sdf.format(new Date())+"\",\"msg\":\"任务运行完成！\"}";
     }
 
     //配置信息
