@@ -232,16 +232,19 @@ public class TasksServer{
     private String planJobTask(HashMap taskData){
         try {
             String runingDate = (String) taskData.get("RuningDate"+sdf.format(new Date()).substring(0,10));
+            //检查任务运行实例是否存在
+            if(taskInstanceMap.get(taskData.get("taskID").toString() + sdf.format(new Date()).substring(0,10)+"start")!=null){
+                //任务已经存在 正在等待或者正在运行 无需执行
+                return "{\"code\":\"0\",\"msg\":\"任务已经存在 正在等待或者正在运行 无需执行！\"}";
+            }
+            //检查运行结果是否存在
             if(runingDate!=null&&runingDate.trim().length()>0){
-                if(taskInstanceMap.get(taskData.get("taskID").toString() + sdf.format(new Date()).substring(0,10)+"start")!=null){
-                    //任务已经存在 正在等待或者正在运行 无需执行
-                    return "{\"code\":\"0\",\"msg\":\"任务已经存在 正在等待或者正在运行 无需执行！\"}";
-                }
                 return "{\"code\":\"0\",\"msg\":\"任务已经执行完成，无需执行！\"}";
             }
         }
         catch(Exception e){
             e.printStackTrace();
+            return "{\"code\":\"10000\",\"msg\":\"任务实例检查异常！\"}";
         }
 
         //计算任务开始的时间和结束的时间 转换成秒 用于启动任务
@@ -258,7 +261,6 @@ public class TasksServer{
             if (taskCycleEndTime.before(now)){
                 return "{\"code\":\"0\",\"msg\":\"已经超过任务执行周期，无需执行！\"}";
             }
-
             if(start.getTime()-now.getTime()<0){
                 return "{\"code\":\"10000\",\"msg\":\"开始时间小于当前！\"}";
             }
@@ -302,7 +304,7 @@ public class TasksServer{
             e.printStackTrace();
             return "{\"code\":\"10000\",\"msg\":\"任务创建错误！\"}";
         }
-        return null;
+        return "{\"code\":\"0\",\"msg\":\"任务创建完成！\"}";
     }
 
     private String createTaskJob(String jobKey,HashMap taskData,long delaySecond){
