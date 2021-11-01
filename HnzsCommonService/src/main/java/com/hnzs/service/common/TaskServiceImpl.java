@@ -136,7 +136,7 @@ public class TaskServiceImpl implements TaskService {
                                 " where id='" + id + "' and is_delete !='1'";
                         alist.add(sql);
                     }else{
-                        result="该任务删除失败";
+                        result=msg;
                     }
 
                 }
@@ -310,10 +310,10 @@ public class TaskServiceImpl implements TaskService {
                                         result="没有要编辑的任务";
                                     }
                                 }else{
-                                    result="该任务编辑失败";
+                                    result=msg1;
                                 }
                             }else{
-                                result="该任务编辑失败";
+                                result=msg;
                             }
 
                         }
