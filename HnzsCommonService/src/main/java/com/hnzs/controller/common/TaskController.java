@@ -78,8 +78,9 @@ public class TaskController {
 //            String loginname= map.get("loginname")+"";
 //            System.out.println("loginname:"+loginname);
 
-            String taskId = request.getParameter("id");
-            String res=taskService.deleteTaskByTaskId(taskId,"");
+            String row = request.getParameter("row");
+            System.out.println("row:"+row);
+            String res=taskService.deleteTaskByTaskId(row,"");
             hmp.put("code", 0);
             hmp.put("msg", res);
             hmp.put("total",0);
@@ -118,11 +119,20 @@ public class TaskController {
 
             String row = request.getParameter("row");
             String res=taskService.editTaskByTaskId(row,"");
-            hmp.put("code", 0);
-            hmp.put("msg", res);
-            hmp.put("total",0);
-            hmp.put("count", 0);
-            hmp.put("data", res);
+            if(res.contains("失败")){
+                hmp.put("code", 10000);
+                hmp.put("msg", res);
+                hmp.put("total",0);
+                hmp.put("count", 0);
+                hmp.put("data", res);
+            }else{
+                hmp.put("code", 0);
+                hmp.put("msg", res);
+                hmp.put("total",0);
+                hmp.put("count", 0);
+                hmp.put("data", res);
+            }
+
         }catch (Exception e){
             e.printStackTrace();
             hmp.put("code", 10000);

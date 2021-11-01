@@ -386,6 +386,9 @@ public class TasksServer{
         Date end;
         try {
             now=new Date();
+            System.out.println("dd:"+taskData.get("taskStartTime").toString());
+            Date str=sdf.parse("2021-10-30 12:00:30");
+            System.out.println("strr："+str);
             start= sdf.parse(taskData.get("taskStartTime").toString());
             end= sdf.parse(taskData.get("taskEndTime").toString());
             if(start.getTime()-now.getTime()<0){

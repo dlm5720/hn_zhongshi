@@ -79,6 +79,7 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             sb.append("    </record>");
             taskData.put("requestParam",sb.toString());
             String suresult= TasksServer.addTask(JSON.Encode(taskData));
+            System.out.println("ssssssss："+suresult);
             HashMap hmap=(HashMap) JSON.Decode(suresult);
             String code=hmap.get("code")+"";
             String msg=hmap.get("msg")+"";

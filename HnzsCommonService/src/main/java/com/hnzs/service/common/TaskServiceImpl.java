@@ -12,6 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -48,6 +49,7 @@ public class TaskServiceImpl implements TaskService {
                 sql += " and CONCAT(task_name,create_admin) like '%"+task_name+"%'";
             }
             list=commonDao.selectExecute(sql);
+            System.out.println("ll:"+list);
             if(!StringUtil.isNullList(list)){
                 hmp.put("data", list);
                 hmp.put("total", list.size());
@@ -173,7 +175,9 @@ public class TaskServiceImpl implements TaskService {
                     String task_name=row.get("task_name")==null?"":row.get("task_name").toString();//任务名称
                     String Belong_source=row.get("Belong_source")==null?"":row.get("Belong_source").toString();//id
                     String task_start_time=row.get("task_start_time")==null?"":row.get("task_start_time").toString();//任务类型
+                    System.out.println("task_start_time:"+task_start_time);
                     String task_end_time=row.get("task_end_time")==null?"":row.get("task_end_time").toString();//任务名称
+                    System.out.println("task_end_time:"+task_end_time);
                     String task_duration=row.get("task_duration")==null?"":row.get("task_duration").toString();//id
                     String cycle_period=row.get("cycle_period")==null?"":row.get("cycle_period").toString();//任务类型
                     String cycle_end_time=row.get("cycle_end_time")==null?"":row.get("cycle_end_time").toString();//任务名称
@@ -239,6 +243,7 @@ public class TaskServiceImpl implements TaskService {
                             taskData.put("requestParam", sb.toString());
                             //String suresult = TasksServer.addTask(JSON.Encode(taskData));
                             String suresult = TasksServer.delTask(JSON.Encode(taskData));
+                            System.out.println("sssss:"+suresult);
                             HashMap hmap = (HashMap) JSON.Decode(suresult);
                             String code = hmap.get("code") + "";
                             String msg = hmap.get("msg") + "";
@@ -277,6 +282,7 @@ public class TaskServiceImpl implements TaskService {
                                 taskData1.put("requestParam", sb1.toString());
                                 //String suresult = TasksServer.addTask(JSON.Encode(taskData));
                                 String suresult1 = TasksServer.addTask(JSON.Encode(taskData1));
+                                System.out.println("ssasasa:"+suresult1);
                                 HashMap hmap1 = (HashMap) JSON.Decode(suresult1);
                                 String code1 = hmap1.get("code") + "";
                                 String msg1 = hmap1.get("msg") + "";
@@ -414,5 +420,16 @@ public class TaskServiceImpl implements TaskService {
 
 
         return result;
+    }
+
+
+    public static void main(String argsp[]) throws Exception{
+        String time="2010-11-20 11:10:10";
+        String ttmm="2021-10-27 17:22:00";
+        String tttt="2021-10-27 17:22:00";
+        Date date=null;
+        SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        date=formatter.parse(ttmm);
+        System.out.println(date);
     }
 }
