@@ -16,10 +16,11 @@ public interface TaskService {
 
     /**
      * 删除任务
-     * @param taskId
+     * @param rows
      * @return
      */
-    public String deleteTaskByTaskId(String taskId,String userId);
+    //public String deleteTaskByTaskId(String taskId,String userId);
+    public String deleteTaskByTaskId(String rows,String userId);
 
     /**
      * 编辑任务
