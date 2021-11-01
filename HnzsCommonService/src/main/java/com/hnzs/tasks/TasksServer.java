@@ -97,8 +97,36 @@ public class TasksServer{
         }
          */
 
+
+        //定时调度测试
+        /**
+        pool=Executors.newScheduledThreadPool(1000);
+        System.out.println();
+
+        Future future = pool.schedule(
+                new Runnable() {
+                    public void run() {
+                         System.out.println(" 运行时间: " + sdf.format(new Date()));
+                    }
+                },
+                5,
+                TimeUnit.SECONDS
+        );
+
+        Future future2 = pool.schedule(
+                new Runnable() {
+                    public void run() {
+                        System.out.println(" 运行时间: " + sdf.format(new Date()));
+                    }
+                },
+                7,
+                TimeUnit.SECONDS
+        );
+         */
+
         /*****/
         ///unit test
+
         TasksServer ts=new TasksServer();
         ts.start();
 
@@ -107,8 +135,8 @@ public class TasksServer{
         taskData.put("taskID","100000000");
         taskData.put("taskName","测试任务");
         taskData.put("taskBelogFlow","htt://localost/9210/test");
-        taskData.put("taskStartTime","2021-10-29 12:05:00");
-        taskData.put("taskEndTime","2021-10-29 12:45:00");
+        taskData.put("taskStartTime","2021-10-29 23:17:00");
+        taskData.put("taskEndTime","2021-10-29 23:18:00");
         //taskData.put("taskCrossDay","0");
         //taskData.put("taskCycleTime","[1,2,3,4,5,6,7]");
         //taskData.put("taskCycleEndTime","2021-10-24 09:07:00");
@@ -117,13 +145,18 @@ public class TasksServer{
         System.out.println(JSON.Encode(taskData));
         ts.addTask(JSON.Encode(taskData));
 
+
+        ts.planJobTask(taskData);
+        ts.planJobTask(taskData);
+        ts.planJobTask(taskData);
+
         taskData=new HashMap();
         taskData.put("taskType","1");
         taskData.put("taskID","100000001");
         taskData.put("taskName","测试任务");
         taskData.put("taskBelogFlow","htt://localost/9210/test");
-        taskData.put("taskStartTime","2021-10-29 15:30:00");
-        taskData.put("taskEndTime","2021-10-29 15:45:00");
+        taskData.put("taskStartTime","2021-10-29 23:10:00");
+        taskData.put("taskEndTime","2021-10-29 23:45:00");
         //taskData.put("taskCrossDay","0");
         //taskData.put("taskCycleTime","[1,2,3,4,5,6,7]");
         //taskData.put("taskCycleEndTime","2021-10-24 09:07:00");
@@ -137,8 +170,8 @@ public class TasksServer{
         taskData.put("taskID","100000002");
         taskData.put("taskName","测试任务");
         taskData.put("taskBelogFlow","htt://localost/9210/test");
-        taskData.put("taskStartTime","2021-10-29 15:35:00");
-        taskData.put("taskEndTime","2021-10-29 15:00:00");
+        taskData.put("taskStartTime","2021-10-29 23:06:00");
+        taskData.put("taskEndTime","2021-10-29 23:10:00");
         //taskData.put("taskCrossDay","0");
         //taskData.put("taskCycleTime","[1,2,3,4,5,6,7]");
         //taskData.put("taskCycleEndTime","2021-10-24 09:07:00");
@@ -147,14 +180,14 @@ public class TasksServer{
         System.out.println(JSON.Encode(taskData));
         ts.addTask(JSON.Encode(taskData));
 
-        /*
+
         taskData=new HashMap();
         taskData.put("taskType","2");
         taskData.put("taskID","200000001");
         taskData.put("taskName","测试任务");
         taskData.put("taskBelogFlow","htt://localost/9210/test");
-        taskData.put("taskStartTime","2021-10-29 15:25:00");
-        taskData.put("taskEndTime","2021-10-29 15:33:00");
+        taskData.put("taskStartTime","2021-10-29 23:25:00");
+        taskData.put("taskEndTime","2021-10-29 23:33:00");
         //taskData.put("taskCrossDay","0");
         taskData.put("taskCycleTime","[1,2,3,4,5,6,7]");
         taskData.put("taskCycleEndTime","2021-10-30 09:07:00");
@@ -168,11 +201,11 @@ public class TasksServer{
         taskData.put("taskID","200000002");
         taskData.put("taskName","测试任务");
         taskData.put("taskBelogFlow","htt://localost/9210/test");
-        taskData.put("taskStartTime","2021-10-29 15:25:00");
-        taskData.put("taskEndTime","2021-10-29 15:28:00");
+        taskData.put("taskStartTime","2021-10-29 23:25:00");
+        taskData.put("taskEndTime","2021-10-30 00:28:00");
         //taskData.put("taskCrossDay","0");
         taskData.put("taskCycleTime","[1,2,6,7]");
-        taskData.put("taskCycleEndTime","2021-10-29 23:59:59");
+        taskData.put("taskCycleEndTime","2021-10-31 23:59:59");
         taskData.put("taskIsTranscode","1");
         taskData.put("taskStorageLocation","1");
         System.out.println(JSON.Encode(taskData));
@@ -183,8 +216,8 @@ public class TasksServer{
         taskData.put("taskID","300000001");
         taskData.put("taskName","测试任务");
         taskData.put("taskBelogFlow","htt://localost/9210/test");
-        taskData.put("taskStartTime","2021-10-29 15:25:00");
-        taskData.put("taskEndTime","2021-11-29 15:31:00");
+        taskData.put("taskStartTime","2021-10-29 23:25:00");
+        taskData.put("taskEndTime","2021-11-29 23:31:00");
         //taskData.put("taskCrossDay","0");
         //taskData.put("taskCycleTime","[1,2,6,7]");
         //taskData.put("taskCycleEndTime","2021-10-29 23:59:59");
@@ -193,7 +226,7 @@ public class TasksServer{
         System.out.println(JSON.Encode(taskData));
         ts.addTask(JSON.Encode(taskData));
 
-        */
+        /**/
     }
 
     /**
@@ -243,12 +276,15 @@ public class TasksServer{
                 new Runnable() {
                     public void run() {
                         try{
+                            /**/
                             System.out.println("----------------------------------------------------------------");
                             System.out.println(sdf.format(new Date())+"任务调度线程运行 当前任务实例是："+ taskInstanceMap.keySet().size());
                             Iterator iterator=taskRegedit.keySet().iterator();
                             while(iterator.hasNext()){
-                                String temp=(String)iterator.next();
-                                HashMap taskData=(HashMap) taskRegedit.get(temp);
+                                String key=(String)iterator.next();
+                                //System.out.println(key);
+                                HashMap taskData=(HashMap) taskRegedit.get(key);
+                                //System.out.println(key);
                                 planJobTask(taskData);
                             }
                             System.out.println(sdf.format(new Date())+"任务调度线程运行 当前任务实例是："+ taskInstanceMap.keySet().size());
@@ -258,7 +294,7 @@ public class TasksServer{
                         }
                     }
                 },
-                1, //延迟多久执行
+                10, //延迟多久执行
                 5, //执行间隔
                 TimeUnit.SECONDS
         );
@@ -323,6 +359,9 @@ public class TasksServer{
          * taskData taskCycleEndTime 2021-10-24 09:07:00
          * taskData taskIsTranscode 0 1
          * taskData taskStorageLocation
+         *
+         * taskData requestURL  string
+         * taskData requestParam xml
          * */
 
         System.out.println(taskData.get("taskID"));
@@ -381,6 +420,7 @@ public class TasksServer{
     }
 
     private String planJobTask(HashMap taskData){
+        System.out.println(taskData);
         try {
             //检查任务运行实例是否存在
             if(taskInstanceMap.get(taskData.get("taskID").toString() + sdf.format(new Date()).substring(0,10)+"start")!=null){
@@ -437,7 +477,7 @@ public class TasksServer{
                 createTaskJob(taskData.get("taskID").toString() + sdf.format(now).substring(0,10) + "_end", taskData, end.getTime() - now.getTime());
             }
             //2.2 周期性任务
-            if(taskData.get("taskType").equals("2")) {
+            else if(taskData.get("taskType").equals("2")) {
                 String taskCycleTime=(String)taskData.get("taskCycleTime");
                 Calendar calendar = Calendar.getInstance();
                 int day = calendar.get(Calendar.DAY_OF_WEEK);
@@ -450,10 +490,15 @@ public class TasksServer{
                 }
             }
             //2.3 7*24小时任务
-            if(taskData.get("taskType").equals("3")) {
+            else if(taskData.get("taskType").equals("3")) {
                 //收录启动任务线程
                 createTaskJob(taskData.get("taskID").toString() + sdf.format(now).substring(0,10) + "_start", taskData, start.getTime() - now.getTime());
             }
+            else{
+                return "{\"code\":\"10000\",\"msg\":\"不支持的任务类型！\"}";
+             }
+            taskData.put(taskData.get("taskID").toString() + sdf.format(now).substring(0,10) ,"{\"state\":\"0\",\"remark\":\"等待运行\"}");
+            taskRegedit.put(taskData.get("taskID").toString(),taskData);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -466,20 +511,38 @@ public class TasksServer{
         Future future = pool.schedule(
                 new Runnable() {
                     public void run() {
-                        /**
-                         * 线程调用的录制或者结束录制接口部分
-                         * 现在是什么都没做
-                         * */
+                        try {
+                            /**
+                             * 线程调用的录制或者结束录制接口部分
+                             * 现在是什么都没做
+                             * */
 
-                        taskData.put(taskData.get("taskID").toString() + sdf.format(new Date()).substring(0,10),"{result：0}");
-                        System.out.println(taskData.get("taskID").toString() +" 运行时间: " + sdf.format(new Date()));
+
+                            taskData.put(
+                                    taskData.get("taskID").toString() + sdf.format(new Date()).substring(0, 10),
+                                    "{\"state\":\"1\",\"remark\":\"结束运行\"}"
+                            );
+                            taskRegedit.put(taskData.get("taskID").toString() ,taskData);
+                            System.out.println(taskData.get("taskID").toString() + " 运行时间: " + sdf.format(new Date()));
+                        }
+                        catch(Exception e){
+                            e.printStackTrace();
+                        }
+
+                        ///执行完成后从执行实例池移除
+                        try{
+                            taskInstanceMap.remove(jobKey);
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
                     }
                 },
                 delaySecond/1000,
                 TimeUnit.SECONDS
         );
         taskInstanceMap.put(jobKey, future);
-        return "{\"code\":\"0\",\"runingTime\":\""+taskData.get("taskID").toString() + sdf.format(new Date())+"\",\"msg\":\"任务运行完成！\"}";
+        return "{\"code\":\"0\",\"runingTime\":\""+taskData.get("taskID").toString() + sdf.format(new Date())+"\",\"msg\":\"等待运行！\"}";
     }
 
     //配置信息
