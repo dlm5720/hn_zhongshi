@@ -29,7 +29,7 @@ public class TasksController {
      */
     @RequestMapping(value = "/CreateTempTask.action" )
     public String CreateTempTask(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        HashMap datamap = new HashMap();
+        HashMap hmp = new HashMap();
         String result="";
         try {
             String jsons=request.getParameter("json");
@@ -42,10 +42,20 @@ public class TasksController {
             }else{
                 result="保存失败";
             }
+            hmp.put("code", 0);
+            hmp.put("msg", result);
+            hmp.put("total",0);
+            hmp.put("count", 0);
+            hmp.put("data", result);
         }catch(Exception e){
             e.printStackTrace();
+            hmp.put("code", 10000);
+            hmp.put("msg", e.getMessage());
+            hmp.put("total",0);
+            hmp.put("count", 0);
+            hmp.put("data", e.getMessage());
         }
-        return  result;
+        return  JSON.Encode(hmp);
 
     }
 
@@ -54,7 +64,7 @@ public class TasksController {
      */
     @RequestMapping(value = "/CreatePeriodicTask.action" )
     public String CreatePeriodicTask(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        HashMap datamap = new HashMap();
+        HashMap hmp = new HashMap();
         String result="";
         try {
             String jsons=request.getParameter("json");
@@ -66,10 +76,20 @@ public class TasksController {
             }else{
                 result="保存失败";
             }
+            hmp.put("code", 0);
+            hmp.put("msg", result);
+            hmp.put("total",0);
+            hmp.put("count", 0);
+            hmp.put("data", result);
         }catch(Exception e){
             e.printStackTrace();
+            hmp.put("code", 10000);
+            hmp.put("msg", e.getMessage());
+            hmp.put("total",0);
+            hmp.put("count", 0);
+            hmp.put("data", e.getMessage());
         }
-        return  result;
+        return  JSON.Encode(hmp);
 
     }
 
@@ -78,7 +98,7 @@ public class TasksController {
      */
     @RequestMapping(value = "/CreateContinuousTask.action" )
     public String CreateContinuousTask(HttpServletRequest request, HttpServletResponse response) throws Exception{
-        HashMap datamap = new HashMap();
+        HashMap hmp = new HashMap();
         String result="";
         try {
             String jsons=request.getParameter("json");
@@ -90,10 +110,20 @@ public class TasksController {
             }else{
                 result="保存失败";
             }
+            hmp.put("code", 0);
+            hmp.put("msg", result);
+            hmp.put("total",0);
+            hmp.put("count", 0);
+            hmp.put("data", result);
         }catch(Exception e){
             e.printStackTrace();
+            hmp.put("code", 10000);
+            hmp.put("msg", e.getMessage());
+            hmp.put("total",0);
+            hmp.put("count", 0);
+            hmp.put("data", e.getMessage());
         }
-        return  result;
+        return  JSON.Encode(hmp);
 
     }
 

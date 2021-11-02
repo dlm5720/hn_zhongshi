@@ -21,8 +21,10 @@ public class CreateTasksServiceImpl implements CreateTasksService{
     @Autowired
     private CommonDao commonDao;
 
-    @Value("${RecruitUrl}")
-    private String RecruitUrl;
+    @Value("${RecruitStartUrl}")
+    private String RecruitStartUrl;
+    @Value("${RecruitStopUrl}")
+    private String RecruitStopUrl;
 
 
     @Override
@@ -60,8 +62,8 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             taskData.put("taskCycleEndTime",cycle_end_time);
             taskData.put("taskIsTranscode",is_Transcoding);
             taskData.put("taskStorageLocation",storage_location);
-            taskData.put(" requestURL",RecruitUrl);
-            //创建xml
+
+            //创建开启收录xml
             StringBuilder sb = new StringBuilder();
             sb.append("<? xml version=\"1.0\" ?>");
             sb.append("    <record>");
@@ -77,7 +79,18 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             sb.append("        <dividetime>0</dividetime>");
             sb.append("        <copy>1</copy>");
             sb.append("    </record>");
-            taskData.put("requestParam",sb.toString());
+            taskData.put("startXml",sb.toString());
+
+            //创建关闭收录xml
+            StringBuilder sb1 = new StringBuilder();
+            sb1.append("<? xml version=\"1.0\" ?>");
+            sb1.append("    <transcode>");
+            sb1.append("        <id>"+uuid+"</id>");
+            sb1.append("        <state>recordstop</state>");
+            sb1.append("    </transcode>");
+            taskData.put("stopXml",sb1.toString());
+            taskData.put(" recruitStartUrl",RecruitStartUrl);
+            taskData.put(" recruitStopUrl",RecruitStopUrl);
             String suresult= TasksServer.addTask(JSON.Encode(taskData));
             System.out.println("ssssssss："+suresult);
             HashMap hmap=(HashMap) JSON.Decode(suresult);
@@ -145,7 +158,7 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             taskData.put("taskCycleEndTime",cycle_end_time);
             taskData.put("taskIsTranscode",is_Transcoding);
             taskData.put("taskStorageLocation",storage_location);
-            taskData.put(" requestURL",RecruitUrl);
+
             //创建xml
             StringBuilder sb = new StringBuilder();
             sb.append("<? xml version=\"1.0\" ?>");
@@ -162,7 +175,20 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             sb.append("        <dividetime>0</dividetime>");
             sb.append("        <copy>1</copy>");
             sb.append("    </record>");
-            taskData.put("requestParam",sb.toString());
+            taskData.put("startXml",sb.toString());
+
+            //创建关闭收录xml
+            StringBuilder sb1 = new StringBuilder();
+            sb1.append("<? xml version=\"1.0\" ?>");
+            sb1.append("    <transcode>");
+            sb1.append("        <id>"+uuid+"</id>");
+            sb1.append("        <state>recordstop</state>");
+            sb1.append("    </transcode>");
+            taskData.put("stopXml",sb1.toString());
+            taskData.put(" recruitStartUrl",RecruitStartUrl);
+            taskData.put(" recruitStopUrl",RecruitStopUrl);
+
+
             String suresult= TasksServer.addTask(JSON.Encode(taskData));
             HashMap hmap=(HashMap) JSON.Decode(suresult);
             String code=hmap.get("code")+"";
@@ -229,7 +255,7 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             taskData.put("taskCycleEndTime",cycle_end_time);
             taskData.put("taskIsTranscode",is_Transcoding);
             taskData.put("taskStorageLocation",storage_location);
-            taskData.put(" requestURL",RecruitUrl);
+
             //创建xml
             StringBuilder sb = new StringBuilder();
             sb.append("<? xml version=\"1.0\" ?>");
@@ -246,7 +272,19 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             sb.append("        <dividetime>0</dividetime>");
             sb.append("        <copy>1</copy>");
             sb.append("    </record>");
-            taskData.put("requestParam",sb.toString());
+            taskData.put("startXml",sb.toString());
+
+            //创建关闭收录xml
+            StringBuilder sb1 = new StringBuilder();
+            sb1.append("<? xml version=\"1.0\" ?>");
+            sb1.append("    <transcode>");
+            sb1.append("        <id>"+uuid+"</id>");
+            sb1.append("        <state>recordstop</state>");
+            sb1.append("    </transcode>");
+            taskData.put("stopXml",sb1.toString());
+            taskData.put(" recruitStartUrl",RecruitStartUrl);
+            taskData.put(" recruitStopUrl",RecruitStopUrl);
+
             String suresult= TasksServer.addTask(JSON.Encode(taskData));
             HashMap hmap=(HashMap) JSON.Decode(suresult);
             String code=hmap.get("code")+"";

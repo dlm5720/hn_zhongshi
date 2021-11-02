@@ -22,8 +22,13 @@ import java.util.HashMap;
 @Transactional
 public class TaskServiceImpl implements TaskService {
 
-    @Value("${RecruitUrl}")
-    private String RecruitUrl;
+    @Value("${RecruitStartUrl}")
+    private String RecruitStartUrl;
+
+    @Value("${RecruitStopUrl}")
+    private String RecruitStopUrl;
+
+
 
     @Autowired
     private CommonDao commonDao;
@@ -106,7 +111,7 @@ public class TaskServiceImpl implements TaskService {
                     taskData.put("taskCycleEndTime", cycle_end_time);
                     taskData.put("taskIsTranscode", is_Transcoding);
                     taskData.put("taskStorageLocation", storage_location);
-                    taskData.put(" requestURL", RecruitUrl);
+
                     //创建xml
                     StringBuilder sb = new StringBuilder();
                     sb.append("<? xml version=\"1.0\" ?>");
@@ -123,7 +128,18 @@ public class TaskServiceImpl implements TaskService {
                     sb.append("        <dividetime>0</dividetime>");
                     sb.append("        <copy>1</copy>");
                     sb.append("    </record>");
-                    taskData.put("requestParam", sb.toString());
+                    taskData.put("startXml",sb.toString());
+
+                    //创建关闭收录xml
+                    StringBuilder sb1 = new StringBuilder();
+                    sb1.append("<? xml version=\"1.0\" ?>");
+                    sb1.append("    <transcode>");
+                    sb1.append("        <id>"+id+"</id>");
+                    sb1.append("        <state>recordstop</state>");
+                    sb1.append("    </transcode>");
+                    taskData.put("stopXml",sb1.toString());
+                    taskData.put(" recruitStartUrl",RecruitStartUrl);
+                    taskData.put(" recruitStopUrl",RecruitStopUrl);
                     //String suresult = TasksServer.addTask(JSON.Encode(taskData));
                     String suresult = TasksServer.delTask(JSON.Encode(taskData));
                     HashMap hmap = (HashMap) JSON.Decode(suresult);
@@ -223,7 +239,7 @@ public class TaskServiceImpl implements TaskService {
                             taskData.put("taskCycleEndTime", cycle_end_time1);
                             taskData.put("taskIsTranscode", is_Transcoding1);
                             taskData.put("taskStorageLocation", storage_location1);
-                            taskData.put(" requestURL", RecruitUrl);
+
                             //创建xml
                             StringBuilder sb = new StringBuilder();
                             sb.append("<? xml version=\"1.0\" ?>");
@@ -240,7 +256,18 @@ public class TaskServiceImpl implements TaskService {
                             sb.append("        <dividetime>0</dividetime>");
                             sb.append("        <copy>1</copy>");
                             sb.append("    </record>");
-                            taskData.put("requestParam", sb.toString());
+                            taskData.put("startXml",sb.toString());
+
+                            //创建关闭收录xml
+                            StringBuilder sb1 = new StringBuilder();
+                            sb1.append("<? xml version=\"1.0\" ?>");
+                            sb1.append("    <transcode>");
+                            sb1.append("        <id>"+id+"</id>");
+                            sb1.append("        <state>recordstop</state>");
+                            sb1.append("    </transcode>");
+                            taskData.put("stopXml",sb1.toString());
+                            taskData.put(" recruitStartUrl",RecruitStartUrl);
+                            taskData.put(" recruitStopUrl",RecruitStopUrl);
                             //String suresult = TasksServer.addTask(JSON.Encode(taskData));
                             String suresult = TasksServer.delTask(JSON.Encode(taskData));
                             System.out.println("sssss:"+suresult);
@@ -262,24 +289,35 @@ public class TaskServiceImpl implements TaskService {
                                 taskData1.put("taskCycleEndTime", cycle_end_time);
                                 taskData1.put("taskIsTranscode", is_Transcoding);
                                 taskData1.put("taskStorageLocation", storage_location);
-                                taskData1.put(" requestURL", RecruitUrl);
+
                                 //创建xml
-                                StringBuilder sb1 = new StringBuilder();
+                                StringBuilder sb11 = new StringBuilder();
+                                sb11.append("<? xml version=\"1.0\" ?>");
+                                sb11.append("    <record>");
+                                sb11.append("        <id>" + id + "</id>");
+                                sb11.append("        <state>tryAgainTask</state>");
+                                sb11.append("        <callback>http://lyadm.zgynet.cn/wapi/v1/VideoTemplte/CallBack </callback>");
+                                sb11.append("        <input>/opt/testggx/1.mp4</input>");
+                                sb11.append("        <output>" + storage_location + "</output>");
+                                sb11.append("        <name>save</name>");
+                                sb11.append("        <format>mp4</format>");
+                                sb11.append("        <starttime>" + task_start_time + "</starttime>");
+                                sb11.append("        <duration>" + task_duration + "</duration>");
+                                sb11.append("        <dividetime>0</dividetime>");
+                                sb11.append("        <copy>1</copy>");
+                                sb11.append("    </record>");
+                                taskData.put("startXml",sb11.toString());
+
+                                //创建关闭收录xml
+                                StringBuilder sb12 = new StringBuilder();
                                 sb1.append("<? xml version=\"1.0\" ?>");
-                                sb1.append("    <record>");
-                                sb1.append("        <id>" + id + "</id>");
-                                sb1.append("        <state>tryAgainTask</state>");
-                                sb1.append("        <callback>http://lyadm.zgynet.cn/wapi/v1/VideoTemplte/CallBack </callback>");
-                                sb1.append("        <input>/opt/testggx/1.mp4</input>");
-                                sb1.append("        <output>" + storage_location + "</output>");
-                                sb1.append("        <name>save</name>");
-                                sb1.append("        <format>mp4</format>");
-                                sb1.append("        <starttime>" + task_start_time + "</starttime>");
-                                sb1.append("        <duration>" + task_duration + "</duration>");
-                                sb1.append("        <dividetime>0</dividetime>");
-                                sb1.append("        <copy>1</copy>");
-                                sb1.append("    </record>");
-                                taskData1.put("requestParam", sb1.toString());
+                                sb1.append("    <transcode>");
+                                sb1.append("        <id>"+id+"</id>");
+                                sb1.append("        <state>recordstop</state>");
+                                sb1.append("    </transcode>");
+                                taskData.put("stopXml",sb12.toString());
+                                taskData.put(" recruitStartUrl",RecruitStartUrl);
+                                taskData.put(" recruitStopUrl",RecruitStopUrl);
                                 //String suresult = TasksServer.addTask(JSON.Encode(taskData));
                                 String suresult1 = TasksServer.addTask(JSON.Encode(taskData1));
                                 System.out.println("ssasasa:"+suresult1);
@@ -368,7 +406,7 @@ public class TaskServiceImpl implements TaskService {
                     sb.append("        <dividetime>0</dividetime>");
                     sb.append("        <copy>1</copy>");
                     sb.append("    </record>");
-                    HashMap map=HttpRequest.sendPostXml(RecruitUrl,sb.toString());
+                    HashMap map=HttpRequest.sendPostXml(RecruitStartUrl,sb.toString());
                     String rescruitResult=map.get("result")+"";
                     String rescruitFlag=map.get("flag")+"";
                     String state="";
