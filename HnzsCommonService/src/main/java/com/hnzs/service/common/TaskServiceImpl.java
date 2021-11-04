@@ -53,7 +53,8 @@ public class TaskServiceImpl implements TaskService {
                 sql += " and task_type like'%"+task_type+"%' ";
             }
             if(!StringUtil.isNull(task_name)){
-                sql += " and CONCAT(task_name,create_admin) like '%"+task_name+"%'";
+                //sql += " and CONCAT(task_name,create_admin) like '%"+task_name+"%'";
+                sql += " and task_name like'%"+task_name+"%' ";
             }
             System.out.println("sql:"+sql);
             list=commonDao.selectExecute(sql);
