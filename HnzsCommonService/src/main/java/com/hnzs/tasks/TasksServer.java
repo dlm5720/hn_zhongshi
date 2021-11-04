@@ -1,6 +1,5 @@
 package com.hnzs.tasks;
 
-import com.hnzs.util.HttpRequest;
 import com.hnzs.util.JSON;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.config.RequestConfig;
@@ -11,22 +10,12 @@ import org.apache.http.conn.socket.PlainConnectionSocketFactory;
 import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.*;
 
-@PropertySource(value = {"classpath:recruit.properties"})
 public class TasksServer{
-
-    @Value("${RecruitStartUrl}")
-    private String RecruitStartUrl;
-
-    @Value("${RecruitStopUrl}")
-    private String RecruitStopUrl;
-
     public static void main(String args[]){
         /**
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -151,8 +140,6 @@ public class TasksServer{
         //taskData.put("taskCrossDay","0");
         //taskData.put("taskCycleTime","[1,2,3,4,5,6,7]");
         //taskData.put("taskCycleEndTime","2021-10-24 09:07:00");
-        taskData.put("taskIsTranscode","1");
-        taskData.put("taskStorageLocation","1");
         taskData.put("taskIsTranscode","1");
         taskData.put("taskStorageLocation","1");
         System.out.println(JSON.Encode(taskData));
@@ -403,18 +390,13 @@ public class TasksServer{
             Date str=sdf.parse("2021-10-30 12:00:30");
             System.out.println("strr："+str);
             start= sdf.parse(taskData.get("taskStartTime").toString());
-
+            end= sdf.parse(taskData.get("taskEndTime").toString());
             if(start.getTime()-now.getTime()<0){
                 return "{\"code\":\"10000\",\"msg\":\"开始时间小于当前！\"}";
             }
-
-            if(!taskData.get("taskType").equals("3") ) {
-                end = sdf.parse(taskData.get("taskEndTime").toString());
-                if ((end.getTime() - start.getTime()) < 0) {
-                    return "{\"code\":\"10000\",\"msg\":\"任务结束时间早于任务开始时间！\"}";
-                }
+            if((end.getTime()-start.getTime())<0){
+                return "{\"code\":\"10000\",\"msg\":\"任务结束时间早于任务开始时间！\"}";
             }
-            //
         }
         catch (Exception e){
             e.printStackTrace();
@@ -471,10 +453,8 @@ public class TasksServer{
         Date taskCycleEndTime;
         try {
             now=new Date();
-            end=now;
-
             start= sdf.parse(taskData.get("taskStartTime").toString());
-            //end= sdf.parse(taskData.get("taskEndTime").toString());
+            end= sdf.parse(taskData.get("taskEndTime").toString());
             taskCycleEndTime= sdf.parse(taskData.get("taskEndTime").toString());
             if (taskCycleEndTime.before(now)){
                 return "{\"code\":\"0\",\"msg\":\"已经超过任务执行周期，无需执行！\"}";
@@ -482,12 +462,8 @@ public class TasksServer{
             if(start.getTime()-now.getTime()<0){
                 return "{\"code\":\"10000\",\"msg\":\"开始时间小于当前！\"}";
             }
-
-            if(!taskData.get("taskType").equals("3") ) {
-                end = sdf.parse(taskData.get("taskEndTime").toString());
-                if ((end.getTime() - start.getTime()) < 0) {
-                    return "{\"code\":\"10000\",\"msg\":\"任务结束时间早于任务开始时间！\"}";
-                }
+            if((end.getTime()-start.getTime())<0){
+                return "{\"code\":\"10000\",\"msg\":\"任务结束时间早于任务开始时间！\"}";
             }
         }
         catch (Exception e){
@@ -499,9 +475,9 @@ public class TasksServer{
             //2.1 一次性任务
             if(taskData.get("taskType").equals("1")) {
                 //收录启动任务线程
-                createTaskJob("start",taskData.get("taskID").toString() + sdf.format(now).substring(0,10)+ "_start", taskData, start.getTime() - now.getTime());
+                createTaskJob(taskData.get("taskID").toString() + sdf.format(now).substring(0,10)+ "_start", taskData, start.getTime() - now.getTime());
                 //收录结束任务线程
-                createTaskJob("stop",taskData.get("taskID").toString() + sdf.format(now).substring(0,10) + "_end", taskData, end.getTime() - now.getTime());
+                createTaskJob(taskData.get("taskID").toString() + sdf.format(now).substring(0,10) + "_end", taskData, end.getTime() - now.getTime());
             }
             //2.2 周期性任务
             else if(taskData.get("taskType").equals("2")) {
@@ -511,15 +487,15 @@ public class TasksServer{
                 day= day-1==0?day=7:day-1;
                 if(taskCycleTime.charAt(day)>0) {
                     //收录启动任务线程
-                    createTaskJob("start",taskData.get("taskID").toString() + sdf.format(now).substring(0,10) + "_start", taskData, start.getTime() - now.getTime());
+                    createTaskJob(taskData.get("taskID").toString() + sdf.format(now).substring(0,10) + "_start", taskData, start.getTime() - now.getTime());
                     //收录结束任务线程
-                    createTaskJob("stop",taskData.get("taskID").toString() + sdf.format(now).substring(0,10) + "_end", taskData, end.getTime() - now.getTime());
+                    createTaskJob(taskData.get("taskID").toString() + sdf.format(now).substring(0,10) + "_end", taskData, end.getTime() - now.getTime());
                 }
             }
             //2.3 7*24小时任务
             else if(taskData.get("taskType").equals("3")) {
                 //收录启动任务线程
-                createTaskJob("Start",taskData.get("taskID").toString() + sdf.format(now).substring(0,10) + "_start", taskData, start.getTime() - now.getTime());
+                createTaskJob(taskData.get("taskID").toString() + sdf.format(now).substring(0,10) + "_start", taskData, start.getTime() - now.getTime());
             }
             else{
                 return "{\"code\":\"10000\",\"msg\":\"不支持的任务类型！\"}";
@@ -534,7 +510,7 @@ public class TasksServer{
         return "{\"code\":\"0\",\"msg\":\"任务创建完成！\"}";
     }
 
-    private String createTaskJob(String flag,String jobKey,HashMap taskData,long delaySecond){
+    private String createTaskJob(String jobKey,HashMap taskData,long delaySecond){
         Future future = pool.schedule(
                 new Runnable() {
                     public void run() {
@@ -543,22 +519,8 @@ public class TasksServer{
                              * 线程调用的录制或者结束录制接口部分
                              * 现在是什么都没做
                              * */
-                            String startUrl=taskData.get("recruitStartUrl")+"";
-                            String stopUrl=taskData.get("recruitStopUrl")+"";
-                            String startXml=taskData.get("startXml")+"";
-                            String stopXml=taskData.get("stopXml")+"";
-                            String url="";
-                            String xml="";
-                            if("start".equals(flag)){
-                                url=startUrl;
-                                xml=startXml;
-                            }
-                            if("stop".equals(flag)){
-                                url=stopUrl;
-                                xml=stopXml;
-                            }
-                            HashMap map=HttpRequest.sendPostXml(url,xml);
-                            System.out.println("result:"+map);
+
+
                             taskData.put(
                                     taskData.get("taskID").toString() + sdf.format(new Date()).substring(0, 10),
                                     "{\"state\":\"1\",\"remark\":\"结束运行\"}"
