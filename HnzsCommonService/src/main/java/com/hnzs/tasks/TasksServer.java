@@ -146,9 +146,9 @@ public class TasksServer{
         ts.addTask(JSON.Encode(taskData));
 
 
-        ts.planJobTask(taskData);
-        ts.planJobTask(taskData);
-        ts.planJobTask(taskData);
+//        ts.planJobTask(taskData);
+//        ts.planJobTask(taskData);
+//        ts.planJobTask(taskData);
 
         taskData=new HashMap();
         taskData.put("taskType","1");
