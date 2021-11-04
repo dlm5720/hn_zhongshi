@@ -12,6 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.sound.midi.Soundbank;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -39,10 +40,11 @@ public class TaskServiceImpl implements TaskService {
     public HashMap getTaskList(String task_status, String task_type, String task_name,int paseIndex,int paseSize) {
         HashMap hmp=new HashMap();
         try{
+            //System.out.println("type:"+task_type);
             // 第一步 先查询出该条件下的总记录数 count(*) 即可
             String tsql="select count(*) as total FROM  ";
             tsql +=" (";
-            tsql=" select id,task_type,task_name,Belong_source,task_start_time," +
+            tsql +=" select id,task_type,task_name,Belong_source,task_start_time," +
                     "task_end_time,task_duration,cycle_period,cycle_end_time," +
                     "is_Transcoding,storage_location,task_status," +
                     "create_admin,insert_time,is_delete " +
@@ -61,6 +63,7 @@ public class TaskServiceImpl implements TaskService {
                 tsql += " and task_name like'%"+task_name+"%' ";
             }
             tsql +=" )a ";
+            System.out.println("tsql:"+tsql);
             ArrayList tlist=commonDao.selectExecute(tsql);
             BigInteger total = new BigInteger("0");
             if(tlist.size()>0){
