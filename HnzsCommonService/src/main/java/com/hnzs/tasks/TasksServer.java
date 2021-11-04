@@ -403,13 +403,18 @@ public class TasksServer{
             Date str=sdf.parse("2021-10-30 12:00:30");
             System.out.println("strr："+str);
             start= sdf.parse(taskData.get("taskStartTime").toString());
-            end= sdf.parse(taskData.get("taskEndTime").toString());
+
             if(start.getTime()-now.getTime()<0){
                 return "{\"code\":\"10000\",\"msg\":\"开始时间小于当前！\"}";
             }
-            if((end.getTime()-start.getTime())<0){
-                return "{\"code\":\"10000\",\"msg\":\"任务结束时间早于任务开始时间！\"}";
+
+            if(!taskData.get("taskType").equals("3") ) {
+                end = sdf.parse(taskData.get("taskEndTime").toString());
+                if ((end.getTime() - start.getTime()) < 0) {
+                    return "{\"code\":\"10000\",\"msg\":\"任务结束时间早于任务开始时间！\"}";
+                }
             }
+            //
         }
         catch (Exception e){
             e.printStackTrace();
@@ -466,8 +471,10 @@ public class TasksServer{
         Date taskCycleEndTime;
         try {
             now=new Date();
+            end=now;
+
             start= sdf.parse(taskData.get("taskStartTime").toString());
-            end= sdf.parse(taskData.get("taskEndTime").toString());
+            //end= sdf.parse(taskData.get("taskEndTime").toString());
             taskCycleEndTime= sdf.parse(taskData.get("taskEndTime").toString());
             if (taskCycleEndTime.before(now)){
                 return "{\"code\":\"0\",\"msg\":\"已经超过任务执行周期，无需执行！\"}";
@@ -475,8 +482,12 @@ public class TasksServer{
             if(start.getTime()-now.getTime()<0){
                 return "{\"code\":\"10000\",\"msg\":\"开始时间小于当前！\"}";
             }
-            if((end.getTime()-start.getTime())<0){
-                return "{\"code\":\"10000\",\"msg\":\"任务结束时间早于任务开始时间！\"}";
+
+            if(!taskData.get("taskType").equals("3") ) {
+                end = sdf.parse(taskData.get("taskEndTime").toString());
+                if ((end.getTime() - start.getTime()) < 0) {
+                    return "{\"code\":\"10000\",\"msg\":\"任务结束时间早于任务开始时间！\"}";
+                }
             }
         }
         catch (Exception e){
