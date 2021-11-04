@@ -279,8 +279,10 @@ public class CreateTasksServiceImpl implements CreateTasksService{
                         "task_start_time,task_end_time,task_duration,cycle_period,cycle_end_time,is_Transcoding,storage_location,"+
                         "task_status,insert_time)" +
                         " VALUES (";
-                sqll += " '"+uuid+"','"+task_type+"','"+Belong_source+"','"+task_start_time+"','"+task_end_time+"'," +
-                        "'"+task_duration+"','"+cycle_period+"','"+cycle_end_time+"','"+is_Transcoding+"','"+storage_location+"','"+task_status+"','"+insert_time+"' )";
+                sqll += " '"+uuid+"','"+task_type+"','"+task_name+"','"+Belong_source+"','"+task_start_time+"'," +
+                        "'"+task_end_time+"'," +
+                        "'"+task_duration+"','"+cycle_period+"','"+cycle_end_time+"'," +
+                        "'"+is_Transcoding+"','"+storage_location+"','"+task_status+"','"+insert_time+"' )";
                 ayList.add(sqll);
                 System.out.println("ayList:"+ayList);
                 if(!StringUtil.isNullList(ayList)) {
@@ -352,6 +354,7 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             String is_Transcoding=row.get("is_Transcoding")==null?"":row.get("is_Transcoding").toString();
             String storage_location=row.get("storage_location")==null?"":row.get("storage_location").toString();
             String insert_time= DateUtils.formatDateTimeByDate(new Date());
+            task_end_time="2099-12-30 00:00:00";
             String task_status="待收录";
             String task_type="7*24任务";
             String uuid=StringUtil.getUuid();
@@ -431,6 +434,8 @@ public class CreateTasksServiceImpl implements CreateTasksService{
                         "task_status,insert_time)" +
                         " VALUES (";
                 sqll += " '"+uuid+"','"+task_type+"','"+task_name+"','"+Belong_source+"','"+task_start_time+"'," +
+                        "'"+task_end_time+"'," +
+                        "'"+task_duration+"',"+
                         "'"+is_Transcoding+"','"+storage_location+"','"+task_status+"','"+insert_time+"' )";
                 ayList.add(sqll);
                 System.out.println("ayList:"+ayList);

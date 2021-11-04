@@ -12,7 +12,7 @@ public interface TaskService {
      * @param task_name
      * @return
      */
-    public HashMap getTaskList(String task_status, String task_type, String task_name);
+    public HashMap getTaskList(String task_status, String task_type, String task_name,int paseIndex,int paseSize);
 
     /**
      * 删除任务

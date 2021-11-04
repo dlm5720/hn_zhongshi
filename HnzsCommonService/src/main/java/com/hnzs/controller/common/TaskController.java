@@ -44,7 +44,7 @@ public class TaskController {
             String task_status = request.getParameter("task_status")==null?"":request.getParameter("task_status");//任务状态
             String task_type = request.getParameter("task_type")==null?"":request.getParameter("task_type");//任务类型
             String task_name = request.getParameter("task_name")==null?"":request.getParameter("task_name");//任务名称 用户名称
-            HashMap map=taskService.getTaskList(task_status,task_type,task_name);
+            HashMap map=taskService.getTaskList(task_status,task_type,task_name,pageIndex,pageSize);
             result = JSON.Encode(map);
             System.out.println("result:"+result);
         }catch (Exception e){

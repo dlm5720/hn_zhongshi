@@ -12,10 +12,12 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 
 @Service("TaskService")
 @PropertySource(value = {"classpath:recruit.properties"})
@@ -34,10 +36,39 @@ public class TaskServiceImpl implements TaskService {
     private CommonDao commonDao;
 
     @Override
-    public HashMap getTaskList(String task_status, String task_type, String task_name) {
+    public HashMap getTaskList(String task_status, String task_type, String task_name,int paseIndex,int paseSize) {
         HashMap hmp=new HashMap();
-        ArrayList list=new ArrayList();
         try{
+            // 第一步 先查询出该条件下的总记录数 count(*) 即可
+            String tsql="select count(*) as total FROM  ";
+            tsql +=" (";
+            tsql=" select id,task_type,task_name,Belong_source,task_start_time," +
+                    "task_end_time,task_duration,cycle_period,cycle_end_time," +
+                    "is_Transcoding,storage_location,task_status," +
+                    "create_admin,insert_time,is_delete " +
+                    " from zs_tb_task_detail_info " +
+                    " where is_delete !='1'";
+            if(!StringUtil.isNull(task_status)){
+                //模糊查询
+                tsql += " and task_status like'%"+task_status+"%' ";
+            }
+            if(!StringUtil.isNull(task_type)){
+                //模糊查询
+                tsql += " and task_type like'%"+task_type+"%' ";
+            }
+            if(!StringUtil.isNull(task_name)){
+                //sql += " and CONCAT(task_name,create_admin) like '%"+task_name+"%'";
+                tsql += " and task_name like'%"+task_name+"%' ";
+            }
+            tsql +=" )a ";
+            ArrayList tlist=commonDao.selectExecute(tsql);
+            BigInteger total = new BigInteger("0");
+            if(tlist.size()>0){
+                HashMap map = (HashMap) tlist.get(0);
+                total = (BigInteger) map.get("total");
+            }
+            System.out.println("total:"+total);
+            //第二步 查询
             String sql=" select id,task_type,task_name,Belong_source,task_start_time," +
                     "task_end_time,task_duration,cycle_period,cycle_end_time," +
                     "is_Transcoding,storage_location,task_status," +
@@ -57,18 +88,19 @@ public class TaskServiceImpl implements TaskService {
                 sql += " and task_name like'%"+task_name+"%' ";
             }
             System.out.println("sql:"+sql);
-            list=commonDao.selectExecute(sql);
+            List list=commonDao.selectExecute(sql,paseIndex,paseSize);//查询那一页的数据
+
             System.out.println("ll:"+list);
             if(!StringUtil.isNullList(list)){
                 hmp.put("data", list);
-                hmp.put("total", list.size());
+                hmp.put("total", total);
                 hmp.put("code", 0);
                 hmp.put("msg", "查询成功");
                 hmp.put("count", list.size());
             }else{
-                hmp.put("data", "");
+                hmp.put("data", list);
                 hmp.put("total", 0);
-                hmp.put("code", 10000);
+                hmp.put("code", 0);
                 hmp.put("msg", "查询为空");
                 hmp.put("count", 0);
             }
