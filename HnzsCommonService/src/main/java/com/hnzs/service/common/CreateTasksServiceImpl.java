@@ -29,9 +29,11 @@ public class CreateTasksServiceImpl implements CreateTasksService{
 
     @Override
     //临时任务创建
-    public int CreateTempTask(String jsons) {
+    public HashMap CreateTempTask(String jsons) {
         String sql = "";
+        String res="";
         int result = 1,ls_temp=0;
+        HashMap hmp=new HashMap();
         String add_double="";
         ArrayList ayList=new ArrayList();
         try{
@@ -51,14 +53,38 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             String task_type="临时任务";
             String uuid=StringUtil.getUuid();
             HashMap taskData=new HashMap();
-            taskData.put("taskType",task_type);
+            taskData.put("taskType","1");//1代表临时任务
             taskData.put("taskID",uuid);
             taskData.put("taskName",task_name);
             taskData.put("taskBelogFlow",Belong_source);
             taskData.put("taskStartTime",task_start_time);
             taskData.put("taskEndTime",task_end_time);
             //taskData.put("taskCrossDay","0");
-            taskData.put("taskCycleTime",cycle_period);
+            String cycle="";
+            if(!StringUtil.isNull(cycle_period)){
+                if(cycle_period.contains("一")){
+                    cycle="1";
+                }
+
+                if(cycle_period.contains("二")){
+                    cycle="2";
+                }
+                if(cycle_period.contains("三")){
+                    cycle="3";
+                }
+                if(cycle_period.contains("四")){
+                    cycle="4";
+                }
+                if(cycle_period.contains("五")){
+                    cycle="5";
+                }if(cycle_period.contains("六")){
+                    cycle="6";
+                }
+                if(cycle_period.contains("日")){
+                    cycle="7";
+                }
+            }
+            taskData.put("taskCycleTime",cycle);//周期时间[1,2,3,4,5,6,7]
             taskData.put("taskCycleEndTime",cycle_end_time);
             taskData.put("taskIsTranscode",is_Transcoding);
             taskData.put("taskStorageLocation",storage_location);
@@ -109,25 +135,56 @@ public class CreateTasksServiceImpl implements CreateTasksService{
                     int n = commonDao.addUpdateDeleteExecute(ayList);
                     if(n>0){
                         result=0;
+                        res="临时任务新增成功";
+                        hmp.put("data", res);
+                        hmp.put("total", 0);
+                        hmp.put("code", 0);
+                        hmp.put("msg", res);
+                        hmp.put("count", 0);
                     }else{
                         result=1;
+                        res="临时任务新增失败";
+                        hmp.put("data", res);
+                        hmp.put("total", 0);
+                        hmp.put("code", 10000);
+                        hmp.put("msg", res);
+                        hmp.put("count", 0);
                     }
                 }else{
                     result=1;
+                    res="临时任务新增失败";
+                    hmp.put("data", res);
+                    hmp.put("total", 0);
+                    hmp.put("code", 10000);
+                    hmp.put("msg", res);
+                    hmp.put("count", 0);
                 }
             }else{
                 result=1;
+                res=msg;
+                hmp.put("data", res);
+                hmp.put("total", 0);
+                hmp.put("code", 10000);
+                hmp.put("msg", res);
+                hmp.put("count", 0);
             }
 
         }catch (Exception e){
             e.printStackTrace();
+            hmp.put("data", e.getMessage());
+            hmp.put("total", 0);
+            hmp.put("code", 10000);
+            hmp.put("msg", e.getMessage());
+            hmp.put("count", 0);
         }
-        return result;
+        return hmp;
     }
 
     //周期任务创建
-    public int CreatePeriodicTask(String jsons) {
+    public HashMap CreatePeriodicTask(String jsons) {
+        HashMap hmp=new HashMap();
         String sql = "";
+        String res="";
         int result = 1,ls_temp=0;
         String add_double="";
         ArrayList ayList=new ArrayList();
@@ -147,14 +204,38 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             String task_type="周期任务";
             String uuid=StringUtil.getUuid();
             HashMap taskData=new HashMap();
-            taskData.put("taskType",task_type);
+            taskData.put("taskType","2");//2代表周期任务
             taskData.put("taskID",uuid);
             taskData.put("taskName",task_name);
             taskData.put("taskBelogFlow",Belong_source);
             taskData.put("taskStartTime",task_start_time);
             taskData.put("taskEndTime",task_end_time);
             //taskData.put("taskCrossDay","0");
-            taskData.put("taskCycleTime",cycle_period);
+            String cycle="";
+            if(!StringUtil.isNull(cycle_period)){
+                if(cycle_period.contains("一")){
+                    cycle="1";
+                }
+
+                if(cycle_period.contains("二")){
+                    cycle="2";
+                }
+                if(cycle_period.contains("三")){
+                    cycle="3";
+                }
+                if(cycle_period.contains("四")){
+                    cycle="4";
+                }
+                if(cycle_period.contains("五")){
+                    cycle="5";
+                }if(cycle_period.contains("六")){
+                    cycle="6";
+                }
+                if(cycle_period.contains("日")){
+                    cycle="7";
+                }
+            }
+            taskData.put("taskCycleTime",cycle);//周期时间[1,2,3,4,5,6,7]
             taskData.put("taskCycleEndTime",cycle_end_time);
             taskData.put("taskIsTranscode",is_Transcoding);
             taskData.put("taskStorageLocation",storage_location);
@@ -205,26 +286,57 @@ public class CreateTasksServiceImpl implements CreateTasksService{
                 if(!StringUtil.isNullList(ayList)) {
                     int n = commonDao.addUpdateDeleteExecute(ayList);
                     if(n>0){
-                        result=0;
+                        n=0;
+                        res="周期任务新增成功";
+                        hmp.put("data", res);
+                        hmp.put("total", 0);
+                        hmp.put("code", 0);
+                        hmp.put("msg", res);
+                        hmp.put("count", 0);
                     }else{
                         result=1;
+                        res="周期任务新增失败";
+                        hmp.put("data", res);
+                        hmp.put("total", 0);
+                        hmp.put("code", 10000);
+                        hmp.put("msg", res);
+                        hmp.put("count", 0);
                     }
                 }else{
                     result=1;
+                    res="周期任务新增失败";
+                    hmp.put("data", res);
+                    hmp.put("total", 0);
+                    hmp.put("code", 10000);
+                    hmp.put("msg", res);
+                    hmp.put("count", 0);
                 }
             }else{
                 result=1;
+                res=msg;
+                hmp.put("data", res);
+                hmp.put("total", 0);
+                hmp.put("code", 10000);
+                hmp.put("msg", res);
+                hmp.put("count", 0);
             }
 
         }catch (Exception e){
             e.printStackTrace();
+            hmp.put("data", e.getMessage());
+            hmp.put("total", 0);
+            hmp.put("code", 10000);
+            hmp.put("msg", e.getMessage());
+            hmp.put("count", 0);
         }
-        return result;
+        return hmp;
     }
 
     //7*24任务创建
-    public int CreateContinuousTask(String jsons) {
+    public HashMap CreateContinuousTask(String jsons) {
+        HashMap hmp=new HashMap();
         String sql = "";
+        String res="";
         int result = 1,ls_temp=0;
         String add_double="";
         ArrayList ayList=new ArrayList();
@@ -244,14 +356,38 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             String task_type="7*24任务";
             String uuid=StringUtil.getUuid();
             HashMap taskData=new HashMap();
-            taskData.put("taskType",task_type);
+            taskData.put("taskType","3");//3代表7*24任务
             taskData.put("taskID",uuid);
             taskData.put("taskName",task_name);
             taskData.put("taskBelogFlow",Belong_source);
             taskData.put("taskStartTime",task_start_time);
             taskData.put("taskEndTime",task_end_time);
             //taskData.put("taskCrossDay","0");
-            taskData.put("taskCycleTime",cycle_period);
+            String cycle="";
+            if(!StringUtil.isNull(cycle_period)){
+                if(cycle_period.contains("一")){
+                    cycle="1";
+                }
+
+                if(cycle_period.contains("二")){
+                    cycle="2";
+                }
+                if(cycle_period.contains("三")){
+                    cycle="3";
+                }
+                if(cycle_period.contains("四")){
+                    cycle="4";
+                }
+                if(cycle_period.contains("五")){
+                    cycle="5";
+                }if(cycle_period.contains("六")){
+                    cycle="6";
+                }
+                if(cycle_period.contains("日")){
+                    cycle="7";
+                }
+            }
+            taskData.put("taskCycleTime",cycle);//周期时间[1,2,3,4,5,6,7]
             taskData.put("taskCycleEndTime",cycle_end_time);
             taskData.put("taskIsTranscode",is_Transcoding);
             taskData.put("taskStorageLocation",storage_location);
@@ -302,20 +438,49 @@ public class CreateTasksServiceImpl implements CreateTasksService{
                     int n = commonDao.addUpdateDeleteExecute(ayList);
                     if(n>0){
                         result=0;
+                        res="7*24任务新增成功";
+                        hmp.put("data", res);
+                        hmp.put("total", 0);
+                        hmp.put("code", 0);
+                        hmp.put("msg", res);
+                        hmp.put("count", 0);
                     }else{
                         result=1;
+                        res="7*24任务新增失败";
+                        hmp.put("data", res);
+                        hmp.put("total", 0);
+                        hmp.put("code", 10000);
+                        hmp.put("msg", res);
+                        hmp.put("count", 0);
                     }
                 }else{
                     result=1;
+                    res="7*24任务新增失败";
+                    hmp.put("data", res);
+                    hmp.put("total", 0);
+                    hmp.put("code", 10000);
+                    hmp.put("msg", res);
+                    hmp.put("count", 0);
                 }
             }else{
                 result=1;
+                res=msg;
+                hmp.put("data", res);
+                hmp.put("total", 0);
+                hmp.put("code", 10000);
+                hmp.put("msg", res);
+                hmp.put("count", 0);
             }
 
         }catch (Exception e){
             e.printStackTrace();
+            hmp.put("data", e.getMessage());
+            hmp.put("total", 0);
+            hmp.put("code", 10000);
+            hmp.put("msg", e.getMessage());
+            hmp.put("count", 0);
         }
-        return result;
+        return hmp;
     }
 
 }

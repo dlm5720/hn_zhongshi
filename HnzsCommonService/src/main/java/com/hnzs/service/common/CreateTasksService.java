@@ -8,15 +8,15 @@ public interface CreateTasksService {
     /*
      * 临时任务创建
      */
-    public int CreateTempTask(String jsons);
+    public HashMap CreateTempTask(String jsons);
     /*
      * 周期任务创建
      */
-    public int CreatePeriodicTask(String jsons);
+    public HashMap CreatePeriodicTask(String jsons);
     /*
      * 7*24任务创建
      */
-    public int CreateContinuousTask(String jsons);
+    public HashMap CreateContinuousTask(String jsons);
 
 
 

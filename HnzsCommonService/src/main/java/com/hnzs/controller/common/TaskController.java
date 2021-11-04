@@ -46,6 +46,7 @@ public class TaskController {
             String task_name = request.getParameter("task_name")==null?"":request.getParameter("task_name");//任务名称 用户名称
             HashMap map=taskService.getTaskList(task_status,task_type,task_name);
             result = JSON.Encode(map);
+            System.out.println("result:"+result);
         }catch (Exception e){
             e.printStackTrace();
             HashMap hmp = new HashMap();

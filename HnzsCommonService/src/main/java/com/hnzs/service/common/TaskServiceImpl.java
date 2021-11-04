@@ -45,14 +45,17 @@ public class TaskServiceImpl implements TaskService {
                     " from zs_tb_task_detail_info " +
                     " where is_delete !='1'";
             if(!StringUtil.isNull(task_status)){
-                sql += " and task_status ='"+task_status+"' ";
+                //模糊查询
+                sql += " and task_status like'%"+task_status+"%' ";
             }
             if(!StringUtil.isNull(task_type)){
-                sql += " and task_type ='"+task_type+"' ";
+                //模糊查询
+                sql += " and task_type like'%"+task_type+"%' ";
             }
             if(!StringUtil.isNull(task_name)){
                 sql += " and CONCAT(task_name,create_admin) like '%"+task_name+"%'";
             }
+            System.out.println("sql:"+sql);
             list=commonDao.selectExecute(sql);
             System.out.println("ll:"+list);
             if(!StringUtil.isNullList(list)){
@@ -61,6 +64,12 @@ public class TaskServiceImpl implements TaskService {
                 hmp.put("code", 0);
                 hmp.put("msg", "查询成功");
                 hmp.put("count", list.size());
+            }else{
+                hmp.put("data", "");
+                hmp.put("total", 0);
+                hmp.put("code", 10000);
+                hmp.put("msg", "查询为空");
+                hmp.put("count", 0);
             }
 
         }catch (Exception e){
@@ -100,14 +109,48 @@ public class TaskServiceImpl implements TaskService {
                     String task_status = row.get("task_status") == null ? "" : row.get("task_status").toString();//任务名称
                     //先调用接口进行判断，再删除
                     HashMap taskData = new HashMap();
-                    taskData.put("taskType", task_type);
+                    String taskType="";
+                    if(task_type.contains("临时")){
+                        taskType="1";
+                    }
+                    if(task_type.contains("周期")){
+                        taskType="2";
+                    }
+                    if(task_type.contains("7*24")){
+                        taskType="3";
+                    }
+                    taskData.put("taskType", taskType);
                     taskData.put("taskID", id);
                     taskData.put("taskName", task_name);
                     taskData.put("taskBelogFlow", Belong_source);
                     taskData.put("taskStartTime", task_start_time);
                     taskData.put("taskEndTime", task_end_time);
                     //taskData.put("taskCrossDay","0");
-                    taskData.put("taskCycleTime", cycle_period);
+                    String cycle="";
+                    if(!StringUtil.isNull(cycle_period)){
+                        if(cycle_period.contains("一")){
+                            cycle="1";
+                        }
+
+                        if(cycle_period.contains("二")){
+                            cycle="2";
+                        }
+                        if(cycle_period.contains("三")){
+                            cycle="3";
+                        }
+                        if(cycle_period.contains("四")){
+                            cycle="4";
+                        }
+                        if(cycle_period.contains("五")){
+                            cycle="5";
+                        }if(cycle_period.contains("六")){
+                            cycle="6";
+                        }
+                        if(cycle_period.contains("日")){
+                            cycle="7";
+                        }
+                    }
+                    taskData.put("taskCycleTime",cycle);//周期时间[1,2,3,4,5,6,7]
                     taskData.put("taskCycleEndTime", cycle_end_time);
                     taskData.put("taskIsTranscode", is_Transcoding);
                     taskData.put("taskStorageLocation", storage_location);
@@ -228,14 +271,48 @@ public class TaskServiceImpl implements TaskService {
 
                             //先调用接口进行判断，再删除
                             HashMap taskData = new HashMap();
-                            taskData.put("taskType", task_type1);
+                            String taskType1="";
+                            if(task_type1.contains("临时")){
+                                taskType1="1";
+                            }
+                            if(task_type1.contains("周期")){
+                                taskType1="2";
+                            }
+                            if(task_type1.contains("7*24")){
+                                taskType1="3";
+                            }
+                            taskData.put("taskType", taskType1);
                             taskData.put("taskID", id);
                             taskData.put("taskName", task_name1);
                             taskData.put("taskBelogFlow", Belong_source1);
                             taskData.put("taskStartTime", task_start_time1);
                             taskData.put("taskEndTime", task_end_time1);
                             //taskData.put("taskCrossDay","0");
-                            taskData.put("taskCycleTime", cycle_period1);
+                            String cycle1="";
+                            if(!StringUtil.isNull(cycle_period1)){
+                                if(cycle_period1.contains("一")){
+                                    cycle1="1";
+                                }
+
+                                if(cycle_period1.contains("二")){
+                                    cycle1="2";
+                                }
+                                if(cycle_period1.contains("三")){
+                                    cycle1="3";
+                                }
+                                if(cycle_period1.contains("四")){
+                                    cycle1="4";
+                                }
+                                if(cycle_period1.contains("五")){
+                                    cycle1="5";
+                                }if(cycle_period1.contains("六")){
+                                    cycle1="6";
+                                }
+                                if(cycle_period1.contains("日")){
+                                    cycle1="7";
+                                }
+                            }
+                            taskData.put("taskCycleTime",cycle1);//周期时间[1,2,3,4,5,6,7]
                             taskData.put("taskCycleEndTime", cycle_end_time1);
                             taskData.put("taskIsTranscode", is_Transcoding1);
                             taskData.put("taskStorageLocation", storage_location1);
@@ -278,14 +355,48 @@ public class TaskServiceImpl implements TaskService {
                                 //删除成功之后再进行添加
                                 //先调用接口进行判断，再删除
                                 HashMap taskData1 = new HashMap();
-                                taskData1.put("taskType", task_type);
+                                String taskType="";
+                                if(task_type.contains("临时")){
+                                    taskType="1";
+                                }
+                                if(task_type.contains("周期")){
+                                    taskType="2";
+                                }
+                                if(task_type.contains("7*24")){
+                                    taskType="3";
+                                }
+                                taskData1.put("taskType", taskType);
                                 taskData1.put("taskID", id);
                                 taskData1.put("taskName", task_name);
                                 taskData1.put("taskBelogFlow", Belong_source);
                                 taskData1.put("taskStartTime", task_start_time);
                                 taskData1.put("taskEndTime", task_end_time);
                                 //taskData.put("taskCrossDay","0");
-                                taskData1.put("taskCycleTime", cycle_period);
+                                String cycle="";
+                                if(!StringUtil.isNull(cycle_period)){
+                                    if(cycle_period.contains("一")){
+                                        cycle="1";
+                                    }
+
+                                    if(cycle_period.contains("二")){
+                                        cycle="2";
+                                    }
+                                    if(cycle_period.contains("三")){
+                                        cycle="3";
+                                    }
+                                    if(cycle_period.contains("四")){
+                                        cycle="4";
+                                    }
+                                    if(cycle_period.contains("五")){
+                                        cycle="5";
+                                    }if(cycle_period.contains("六")){
+                                        cycle="6";
+                                    }
+                                    if(cycle_period.contains("日")){
+                                        cycle="7";
+                                    }
+                                }
+                                taskData.put("taskCycleTime",cycle);//周期时间[1,2,3,4,5,6,7]
                                 taskData1.put("taskCycleEndTime", cycle_end_time);
                                 taskData1.put("taskIsTranscode", is_Transcoding);
                                 taskData1.put("taskStorageLocation", storage_location);
