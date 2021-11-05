@@ -36,7 +36,7 @@ public class TaskController {
     public String getTaskList(){
         String result="";
         try{
-            int pageIndex = Integer.parseInt(request.getParameter("pageIndex")==null?"1":request.getParameter("pageIndex"));//页数
+            int pageIndex = Integer.parseInt(request.getParameter("pageIndex")==null?"0":request.getParameter("pageIndex"));//页数
             int pageSize = Integer.parseInt(request.getParameter("pageSize")==null?"99999":request.getParameter("pageSize"));//每页数据量
             System.out.println("pageIndex:"+pageIndex);
             System.out.println("pageSize:"+pageSize);

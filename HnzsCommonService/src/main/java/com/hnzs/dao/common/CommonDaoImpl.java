@@ -35,16 +35,28 @@ public class CommonDaoImpl implements CommonDao {
 	}
 
 
-	public List<?> selectExecute(String sql, int offset, int length) {
-		HibernateEntityManager hEntityManager = (HibernateEntityManager)entityManager;
-		Session session = hEntityManager.getSession();
-		Query query =session.createSQLQuery(sql);
-		query.setFirstResult(offset);
-		query.setMaxResults(length);
-		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-		return query.list();
-	}
+//	public List<?> selectExecute(String sql, int offset, int length) {
+//		HibernateEntityManager hEntityManager = (HibernateEntityManager)entityManager;
+//		Session session = hEntityManager.getSession();
+//		Query query =session.createSQLQuery(sql);
+//		query.setFirstResult(offset);
+//		query.setMaxResults(length);
+//		query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+//		return query.list();
+//	}
 
+    public ArrayList<?> selectExecute(String sql, int offset, int length) {
+        HibernateEntityManager hEntityManager = (HibernateEntityManager)entityManager;
+        Session session = hEntityManager.getSession();
+        //query.setFirstResult(0);//从第一条记录开始
+        //    query.setMaxResults(4);//取出四条记录
+        Query query =session.createSQLQuery(sql);
+        query.setFirstResult(offset);
+        query.setMaxResults(length);
+        query.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+        ArrayList alist=(ArrayList) query.list();
+        return alist;
+    }
 
 	@Override
     @Modifying
