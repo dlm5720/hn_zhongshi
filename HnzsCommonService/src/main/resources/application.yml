@@ -4,6 +4,7 @@ spring:
   profiles:
     active: local,native
 
+
 #  cloud:vicvi
 #    config:
 #      #仓库的分支

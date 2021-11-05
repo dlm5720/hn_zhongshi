@@ -36,15 +36,18 @@ public class TaskController {
     public String getTaskList(){
         String result="";
         try{
-            int pageIndex = Integer.parseInt(request.getParameter("pageIndex")==null?"0":request.getParameter("pageIndex"));//页数
+            int pageIndex = Integer.parseInt(request.getParameter("pageIndex")==null?"1":request.getParameter("pageIndex"));//页数
             int pageSize = Integer.parseInt(request.getParameter("pageSize")==null?"99999":request.getParameter("pageSize"));//每页数据量
             System.out.println("pageIndex:"+pageIndex);
             System.out.println("pageSize:"+pageSize);
+            int start=(pageIndex-1)*pageSize;
 
             String task_status = request.getParameter("task_status")==null?"":request.getParameter("task_status");//任务状态
             String task_type = request.getParameter("task_type")==null?"":request.getParameter("task_type");//任务类型
             String task_name = request.getParameter("task_name")==null?"":request.getParameter("task_name");//任务名称 用户名称
-            HashMap map=taskService.getTaskList(task_status,task_type,task_name,pageIndex,pageSize);
+            HashMap map=taskService.getTaskList(task_status,task_type,task_name,start,pageSize);
+            map.put("pageIndex",pageIndex);
+            map.put("pageSize",pageSize);
             result = JSON.Encode(map);
             System.out.println("result:"+result);
         }catch (Exception e){
@@ -61,6 +64,7 @@ public class TaskController {
         }
         return result;
     }
+
 
     /**
      * 删除任务
