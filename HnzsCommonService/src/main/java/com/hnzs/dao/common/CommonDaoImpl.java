@@ -58,6 +58,7 @@ public class CommonDaoImpl implements CommonDao {
         return alist;
     }
 
+
 	@Override
     @Modifying
     @Transactional
