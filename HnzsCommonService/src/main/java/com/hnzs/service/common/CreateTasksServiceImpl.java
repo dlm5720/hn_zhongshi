@@ -21,8 +21,8 @@ public class CreateTasksServiceImpl implements CreateTasksService{
     @Autowired
     private CommonDao commonDao;
 
-    @Value("${RecruitStartUrl}")
-    private String RecruitStartUrl;
+    //@Value("${RecruitStartUrl}")
+    private String RecruitStartUrl="https://www.baidu.com";
     @Value("${RecruitStopUrl}")
     private String RecruitStopUrl;
 
@@ -115,8 +115,9 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             sb1.append("        <state>recordstop</state>");
             sb1.append("    </transcode>");
             taskData.put("stopXml",sb1.toString());
-            taskData.put(" recruitStartUrl",RecruitStartUrl);
-            taskData.put(" recruitStopUrl",RecruitStopUrl);
+            taskData.put("recruitStartUrl",RecruitStartUrl);
+            taskData.put("recruitStopUrl",RecruitStopUrl);
+            System.out.println("taskData："+taskData);
             String suresult= TasksServer.addTask(JSON.Encode(taskData));
             System.out.println("ssssssss："+suresult);
             HashMap hmap=(HashMap) JSON.Decode(suresult);
@@ -267,8 +268,8 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             sb1.append("        <state>recordstop</state>");
             sb1.append("    </transcode>");
             taskData.put("stopXml",sb1.toString());
-            taskData.put(" recruitStartUrl",RecruitStartUrl);
-            taskData.put(" recruitStopUrl",RecruitStopUrl);
+            taskData.put("recruitStartUrl",RecruitStartUrl);
+            taskData.put("recruitStopUrl",RecruitStopUrl);
 
 
             String suresult= TasksServer.addTask(JSON.Encode(taskData));
@@ -422,9 +423,10 @@ public class CreateTasksServiceImpl implements CreateTasksService{
             sb1.append("        <state>recordstop</state>");
             sb1.append("    </transcode>");
             taskData.put("stopXml",sb1.toString());
-            taskData.put(" recruitStartUrl",RecruitStartUrl);
-            taskData.put(" recruitStopUrl",RecruitStopUrl);
-
+            System.out.println("RecruitStartUrl:"+RecruitStartUrl);
+            taskData.put("recruitStartUrl",RecruitStartUrl);
+            taskData.put("recruitStopUrl",RecruitStopUrl);
+            System.out.println("taskData："+taskData);
             String suresult= TasksServer.addTask(JSON.Encode(taskData));
             HashMap hmap=(HashMap) JSON.Decode(suresult);
             String code=hmap.get("code")+"";

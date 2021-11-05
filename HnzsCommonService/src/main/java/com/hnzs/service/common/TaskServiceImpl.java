@@ -218,8 +218,8 @@ public class TaskServiceImpl implements TaskService {
                     sb1.append("        <state>recordstop</state>");
                     sb1.append("    </transcode>");
                     taskData.put("stopXml",sb1.toString());
-                    taskData.put(" recruitStartUrl",RecruitStartUrl);
-                    taskData.put(" recruitStopUrl",RecruitStopUrl);
+                    taskData.put("recruitStartUrl",RecruitStartUrl);
+                    taskData.put("recruitStopUrl",RecruitStopUrl);
                     //String suresult = TasksServer.addTask(JSON.Encode(taskData));
                     String suresult = TasksServer.delTask(JSON.Encode(taskData));
                     HashMap hmap = (HashMap) JSON.Decode(suresult);
@@ -407,8 +407,8 @@ public class TaskServiceImpl implements TaskService {
                             sb1.append("        <state>recordstop</state>");
                             sb1.append("    </transcode>");
                             taskData.put("stopXml",sb1.toString());
-                            taskData.put(" recruitStartUrl",RecruitStartUrl);
-                            taskData.put(" recruitStopUrl",RecruitStopUrl);
+                            taskData.put("recruitStartUrl",RecruitStartUrl);
+                            taskData.put("recruitStopUrl",RecruitStopUrl);
                             //String suresult = TasksServer.addTask(JSON.Encode(taskData));
                             String suresult = TasksServer.delTask(JSON.Encode(taskData));
                             System.out.println("sssss:"+suresult);
@@ -491,8 +491,8 @@ public class TaskServiceImpl implements TaskService {
                                 sb1.append("        <state>recordstop</state>");
                                 sb1.append("    </transcode>");
                                 taskData.put("stopXml",sb12.toString());
-                                taskData.put(" recruitStartUrl",RecruitStartUrl);
-                                taskData.put(" recruitStopUrl",RecruitStopUrl);
+                                taskData.put("recruitStartUrl",RecruitStartUrl);
+                                taskData.put("recruitStopUrl",RecruitStopUrl);
                                 //String suresult = TasksServer.addTask(JSON.Encode(taskData));
                                 String suresult1 = TasksServer.addTask(JSON.Encode(taskData1));
                                 System.out.println("ssasasa:"+suresult1);
@@ -675,5 +675,12 @@ public class TaskServiceImpl implements TaskService {
         SimpleDateFormat formatter=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         date=formatter.parse(ttmm);
         System.out.println(date);
+        StringBuilder sb1 = new StringBuilder();
+        sb1.append("<? xml version=\"1.0\" ?>");
+        sb1.append("    <transcode>");
+        sb1.append("        <state>recordstop</state>");
+        sb1.append("    </transcode>");
+        HashMap map=HttpRequest.sendPostXml("https://www.baidu.com",sb1.toString());
+        System.out.println("mapp:"+map);
     }
 }

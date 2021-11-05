@@ -522,10 +522,16 @@ public class TasksServer{
                              * 线程调用的录制或者结束录制接口部分
                              * 现在是什么都没做
                              * */
+                            System.out.println("flag:"+flag);
+                            System.out.println("taaskdata:"+taskData);
                             String startUrl=taskData.get("recruitStartUrl")+"";
+                            System.out.println("startUrl:"+startUrl);
                             String stopUrl=taskData.get("recruitStopUrl")+"";
+                            System.out.println("stopUrl:"+stopUrl);
                             String startXml=taskData.get("startXml")+"";
+                            System.out.println("startXml:"+startXml);
                             String stopXml=taskData.get("stopXml")+"";
+                            System.out.println("stopXml:"+stopXml);
                             String url="";
                             String xml="";
                             if("start".equals(flag)){
@@ -536,6 +542,7 @@ public class TasksServer{
                                 url=stopUrl;
                                 xml=stopXml;
                             }
+                            System.out.println("url:"+url);
                             HashMap map= HttpRequest.sendPostXml(url,xml);
                             System.out.println("result:"+map);
 

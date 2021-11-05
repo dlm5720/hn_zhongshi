@@ -649,6 +649,7 @@ public class HttpRequest {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("flag", "error");
         try {
+            System.out.println("uurl:"+stringurl);
             URL url = new URL(stringurl);
             HttpURLConnection connection = (HttpURLConnection)url.openConnection();
             connection.setRequestMethod("POST");//请求post方式
@@ -656,7 +657,7 @@ public class HttpRequest {
             connection.setDoOutput(true);
 
             //header内的的参数在这里set    connection.setRequestProperty("健, "值");
-            connection.setRequestProperty("Pragma:", "no-cache");
+            //connection.setRequestProperty("Pragma:", "no-cache");
             connection.setRequestProperty("Cache-Control", "no-cache");
             connection.setRequestProperty("Content-Type", "text/xml");
 
@@ -681,6 +682,7 @@ public class HttpRequest {
             map.put("flag", "ok");
             map.put("result", result);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println(e);
             map.put("result", "发送 POST 请求出现异常！");
             map.put("flag","fail");
