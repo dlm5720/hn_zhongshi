@@ -85,12 +85,12 @@ public class TaskController {
 
             String row = request.getParameter("row");
             System.out.println("row:"+row);
-            String res=taskService.deleteTaskByTaskId(row,"");
-            hmp.put("code", 0);
-            hmp.put("msg", res);
-            hmp.put("total",0);
-            hmp.put("count", 0);
-            hmp.put("data", res);
+            hmp=taskService.deleteTaskByTaskId(row,"");
+//            hmp.put("code", 0);
+//            hmp.put("msg", res);
+//            hmp.put("total",0);
+//            hmp.put("count", 0);
+//            hmp.put("data", res);
         }catch (Exception e){
             e.printStackTrace();
             hmp.put("code", 10000);
@@ -123,20 +123,20 @@ public class TaskController {
 
 
             String row = request.getParameter("row");
-            String res=taskService.editTaskByTaskId(row,"");
-            if(res.contains("失败")){
-                hmp.put("code", 10000);
-                hmp.put("msg", res);
-                hmp.put("total",0);
-                hmp.put("count", 0);
-                hmp.put("data", res);
-            }else{
-                hmp.put("code", 0);
-                hmp.put("msg", res);
-                hmp.put("total",0);
-                hmp.put("count", 0);
-                hmp.put("data", res);
-            }
+            hmp=taskService.editTaskByTaskId(row,"");
+//            if(res.contains("失败")){
+//                hmp.put("code", 10000);
+//                hmp.put("msg", res);
+//                hmp.put("total",0);
+//                hmp.put("count", 0);
+//                hmp.put("data", res);
+//            }else{
+//                hmp.put("code", 0);
+//                hmp.put("msg", res);
+//                hmp.put("total",0);
+//                hmp.put("count", 0);
+//                hmp.put("data", res);
+//            }
 
         }catch (Exception e){
             e.printStackTrace();

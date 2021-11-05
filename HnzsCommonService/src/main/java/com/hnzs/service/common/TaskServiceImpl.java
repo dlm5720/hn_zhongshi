@@ -121,7 +121,7 @@ public class TaskServiceImpl implements TaskService {
 
 
     @Override
-    public String deleteTaskByTaskId(String rows,String userId) {
+    public HashMap deleteTaskByTaskId(String rows,String userId) {
         String result="";
         HashMap hmp=new HashMap();
         ArrayList alist=new ArrayList();
@@ -231,32 +231,59 @@ public class TaskServiceImpl implements TaskService {
                                 " delete_admin='" + userId + "' " +
                                 " where id='" + id + "' and is_delete !='1'";
                         alist.add(sql);
+                        if(!StringUtil.isNullList(alist)){
+                            int n=commonDao.addUpdateDeleteExecute(alist);
+                            if(n>0){
+                                result="该任务删除成功";
+                                hmp.put("data", result);
+                                hmp.put("total", 0);
+                                hmp.put("code", 0);
+                                hmp.put("msg", result);
+                                hmp.put("count", 0);
+                            }else{
+                                result="该任务删除失败";
+                                hmp.put("data", result);
+                                hmp.put("total", 0);
+                                hmp.put("code", 10000);
+                                hmp.put("msg", result);
+                                hmp.put("count", 0);
+                            }
+
+                        }else{
+                            result="没有要删除的任务";
+                            hmp.put("data", result);
+                            hmp.put("total", 0);
+                            hmp.put("code", 10000);
+                            hmp.put("msg", result);
+                            hmp.put("count", 0);
+                        }
                     }else{
                         result=msg;
+                        hmp.put("data", result);
+                        hmp.put("total", 0);
+                        hmp.put("code", 10000);
+                        hmp.put("msg", result);
+                        hmp.put("count", 0);
+
                     }
 
                 }
             }
-            if(!StringUtil.isNullList(alist)){
-                int n=commonDao.addUpdateDeleteExecute(alist);
-                if(n>0){
-                    result="该任务删除成功";
-                }else{
-                    result="该任务删除失败";
-                }
 
-            }else{
-                result="没有要删除的任务";
-            }
         }catch (Exception e){
             e.printStackTrace();
             result=e.getMessage();
+            hmp.put("data", result);
+            hmp.put("total", 0);
+            hmp.put("code", 10000);
+            hmp.put("msg", result);
+            hmp.put("count", 0);
         }
-        return result;
+        return hmp;
     }
 
     @Override
-    public String editTaskByTaskId(String rows,String userId) {
+    public HashMap editTaskByTaskId(String rows,String userId) {
         String result="";
         HashMap hmp=new HashMap();
         try{
@@ -488,18 +515,43 @@ public class TaskServiceImpl implements TaskService {
                                         int n=commonDao.addUpdateDeleteExecute(arrayList);
                                         if(n>0){
                                             result="该任务编辑成功";
+                                            hmp.put("data", result);
+                                            hmp.put("total", 0);
+                                            hmp.put("code", 0);
+                                            hmp.put("msg", result);
+                                            hmp.put("count", 0);
                                         }else{
                                             result="该任务编辑失败";
+                                            hmp.put("data", result);
+                                            hmp.put("total", 0);
+                                            hmp.put("code", 10000);
+                                            hmp.put("msg", result);
+                                            hmp.put("count", 0);
                                         }
 
                                     }else{
                                         result="没有要编辑的任务";
+                                        hmp.put("data", result);
+                                        hmp.put("total", 0);
+                                        hmp.put("code", 10000);
+                                        hmp.put("msg", result);
+                                        hmp.put("count", 0);
                                     }
                                 }else{
                                     result=msg1;
+                                    hmp.put("data", result);
+                                    hmp.put("total", 0);
+                                    hmp.put("code", 10000);
+                                    hmp.put("msg", result);
+                                    hmp.put("count", 0);
                                 }
                             }else{
                                 result=msg;
+                                hmp.put("data", result);
+                                hmp.put("total", 0);
+                                hmp.put("code", 10000);
+                                hmp.put("msg", result);
+                                hmp.put("count", 0);
                             }
 
                         }
@@ -510,8 +562,13 @@ public class TaskServiceImpl implements TaskService {
         }catch (Exception e){
             e.printStackTrace();
             result=e.getMessage();
+            hmp.put("data", result);
+            hmp.put("total", 0);
+            hmp.put("code", 10000);
+            hmp.put("msg", result);
+            hmp.put("count", 0);
         }
-        return result;
+        return hmp;
     }
 
     @Override
@@ -602,6 +659,7 @@ public class TaskServiceImpl implements TaskService {
         }catch (Exception e){
             e.printStackTrace();
             result=e.getMessage();
+
         }
 
 

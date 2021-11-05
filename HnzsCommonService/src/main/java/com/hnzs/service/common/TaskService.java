@@ -20,14 +20,14 @@ public interface TaskService {
      * @return
      */
     //public String deleteTaskByTaskId(String taskId,String userId);
-    public String deleteTaskByTaskId(String rows,String userId);
+    public HashMap deleteTaskByTaskId(String rows,String userId);
 
     /**
      * 编辑任务
      * @param rows
      * @return
      */
-    public String editTaskByTaskId(String rows,String userId);
+    public HashMap editTaskByTaskId(String rows,String userId);
 
 
     /**
