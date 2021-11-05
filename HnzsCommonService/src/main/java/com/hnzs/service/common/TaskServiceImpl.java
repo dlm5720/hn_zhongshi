@@ -592,11 +592,11 @@ public class TaskServiceImpl implements TaskService {
             }
             if(!StringUtil.isNullList(list)){
                 int n=commonDao.addUpdateDeleteExecute(list);
-//                if(n>0){
-//                    result=n+"条任务已重试";
-//                }else{
-//                    result="该任务编辑失败";
-//                }
+                if(n>0){
+                    result=n+"条任务已重试";
+                }else{
+                    result="该任务重试失败";
+                }
             }
 
         }catch (Exception e){
